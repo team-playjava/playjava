@@ -3,25 +3,134 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #4289cc;
+	--foreground: #212529;
+	--header-background: #D9D9D9;
+	--header-background-hover: #919191;
+	--btn-header-login-background: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--background: #2b5d8b;
+		--foreground: #e0e0e0;
+		--header-background: #1f1f1f;
+		--header-background-hover: #5D5D5D;
+		--btn-header-login-background: #000000;
+	}
+}
+
+@font-face {
+	font-family: 'Pretendard';
+	src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	color: var(--foreground);
+	background: var(--background);
+	font-family: 'Pretendard', sans-serif;
+}
+
+main {
+	position: relative;
+	z-index: 0;
+	margin: 40px 8%;
+}
+
+header {
+	height: 70px;
+	background: var(--header-background);
+	margin: 10px;
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.headerIcon {
+	height: 100%;
+	width: 150px;
+	background: #96B6E4;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+.headerMenu {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	height: 100%;
+	width: 100%;
+}
+
+.headerMenuBox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 150px;
+	z-index: 99999;
+}
+
+.headerMenuBoxOuter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 70px;
+	width: 100%;
+	background: var(--header-background);
+}
+
+.headerMenuBoxInner {
+	background: var(--header-background);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 50px;
+	width: 100%;
+	/* display: none; */
+	z-index: 99999;
+}
+
+.headerMenuBoxOuter:hover {
+	background: var(--header-background-hover);
+}
+.headerMenuBoxInner:hover {
+	background: var(--header-background-hover);
+}
+
+.headerLogin {
+	background: var(--btn-header-login-background);
+	width: 20%;
+	max-width: 200px;
+	min-width: 150px;
+	border-radius: 150px;
+	margin-right: 10px;
+	padding: 10px 0;
+}
+
+.headerLoginInner {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
+}
+
+
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 1.5em;
 }

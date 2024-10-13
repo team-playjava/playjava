@@ -1,0 +1,15 @@
+.pageTop {
+	margin-bottom: 20px;
+}
+
+.pageTopTitle {
+	text-shadow: 2px 2px 2px #353d44;
+	font-size: 2.4em;
+}
+
+.chartList {
+	background: var(--header-background);
+	border-radius: 30px;
+	min-width: 500px;
+	min-height: 300px;
+}

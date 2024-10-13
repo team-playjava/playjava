@@ -1,0 +1,33 @@
+.pageTop {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #e0e0e0;
+	margin-top: 250px;
+}
+
+.pageTopTitle {
+	text-shadow: 2px 2px 2px #353d44;
+	margin-bottom: 70px;
+	font-size: 2.4em;
+}
+
+.input {
+	width: 70%;
+	max-width: 600px;
+	height: 40px;
+	border: none;
+	border-radius: 15px;
+	font-size: 1.7em;
+	background-color: var(--header-background);
+	color: var(--foreground);
+	padding: 35px 40px;
+	box-shadow: 0 0 50px #000000;
+	text-overflow: ellipsis;
+}
+
+.input:focus {
+	outline:none;
+}
