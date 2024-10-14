@@ -1,0 +1,457 @@
+@keyframes ChartAppearance {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.difficulty-bar>div {
+    border-radius: 50%
+}
+
+.difficulty-bar>div[data-active=true] {
+    outline: 2px solid #eee
+}
+
+.difficulty-bar>[data-active=true] {
+    filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5))
+}
+.difficulty-bar {
+    position: sticky;
+    display: flex;
+    width: 55%;
+	max-width: 570px;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    gap: 2px;
+    justify-content: space-evenly;
+    overflow: auto;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: 1;
+}
+.difficulty-bar-option {
+    margin-bottom: -20px;
+    border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.difficulty-bar-diff {
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+.difficulty-bar .level {
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    font-size: 9pt;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.mode-selection {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: -15px;
+}
+
+.mode-selection>.body {
+    display: inline-block;
+    border-radius: 10px;
+    overflow: hidden
+}
+
+.mode-selection button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    color: #eee;
+    text-shadow: 0 0 2px #000;
+    filter: opacity(0.8) brightness(90%) grayscale(50%);
+    transition: all 0.3s;
+}
+
+.mode-selection button.mode-串 {
+    margin-right: -5px;
+    background: linear-gradient(-15deg, #3279b4 35%, #3c89c9 50%)
+}
+
+.mode-selection button.mode-本 {
+    background: linear-gradient(-15deg, #348a34 35%, #3ca03c 50%)
+}
+
+.mode-selection button.mode-雙 {
+    margin-left: -5px;
+    background: linear-gradient(-15deg, #732c90 35%, #8633a7 50%)
+}
+
+.mode-selection button:hover {
+    filter: brightness(120%)
+}
+
+.mode-selection button.active {
+    filter: brightness(100%)
+}
+
+.level {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    font-size: 11pt;
+    text-shadow: 0 1px 1px rgba(0,0,0,.5);
+    box-sizing: border-box;
+    border-radius: 50%
+}
+
+.level.exponential {
+    border: 1px solid #df88ff;
+    filter: drop-shadow(0 0 5px #df88ff);
+    color: #faeeff;
+    background: radial-gradient(#ae00ee, black)
+}
+
+.level-31 {
+    border: 1px solid #df88ff;
+    filter: drop-shadow(0 0 5px #df88ff);
+    color: #faeeff;
+    background: radial-gradient(#ae00ee, black)
+}
+
+.level>.stars {
+    display: flex;
+    font-size: 8pt;
+    text-align: center;
+    color: gold;
+    text-shadow: 0 1px 2px #000
+}
+
+.level-1 {
+    color: #a4a2f0;
+    filter: drop-shadow(0 0 0.05px #514fc4);
+    background: rgba(81,79,196,.1003333333)
+}
+
+.level-1-border {
+    border-color: #7977e9
+}
+
+.level-2 {
+    color: #9fb1ef;
+    filter: drop-shadow(0 0 0.05px #4b67c4);
+    background: rgba(75,103,196,.1013333333)
+}
+
+.level-2-border {
+    border-color: #738ee8
+}
+
+.level-3 {
+    color: #9bc3ef;
+    filter: drop-shadow(0 0 0.05px #4683c4);
+    background: rgba(70,131,196,.103)
+}
+
+.level-3-border {
+    border-color: #6fa9e8
+}
+
+.level-4 {
+    color: #97d7ee;
+    filter: drop-shadow(0 0 0.0888888889px #42a1c4);
+    background: rgba(66,161,196,.1053333333)
+}
+
+.level-4-border {
+    border-color: #6cc6e7
+}
+
+.level-5 {
+    color: #94eced;
+    filter: drop-shadow(0 0 0.1388888889px #3ec2c4);
+    background: rgba(62,194,196,.1083333333)
+}
+
+.level-5-border {
+    border-color: #68e4e6
+}
+
+.level-6 {
+    color: #90edd7;
+    filter: drop-shadow(0 0 0.2px #3ac4a4);
+    background: rgba(58,196,164,.112)
+}
+
+.level-6-border {
+    border-color: #64e6c8
+}
+
+.level-7 {
+    color: #8cecbe;
+    filter: drop-shadow(0 0 0.2722222222px #35c47f);
+    background: rgba(53,196,127,.1163333333)
+}
+
+.level-7-border {
+    border-color: #61e5a5
+}
+
+.level-8 {
+    color: #89eca3;
+    filter: drop-shadow(0 0 0.3555555556px #31c458);
+    background: rgba(49,196,88,.1213333333)
+}
+
+.level-8-border {
+    border-color: #5de581
+}
+
+.level-9 {
+    color: #85eb87;
+    filter: drop-shadow(0 0 0.45px #2dc430);
+    background: rgba(45,196,48,.127)
+}
+
+.level-9-border {
+    border-color: #59e45c
+}
+
+.level-10 {
+    color: #9aeb81;
+    filter: drop-shadow(0 0 0.5555555556px #4dc429);
+    background: rgba(77,196,41,.1333333333)
+}
+
+.level-10-border {
+    border-color: #76e356
+}
+
+.level-11 {
+    color: #b2ea7e;
+    filter: drop-shadow(0 0 0.6722222222px #71c424);
+    background: rgba(113,196,36,.1403333333)
+}
+
+.level-11-border {
+    border-color: #98e352
+}
+
+.level-12 {
+    color: #cce97a;
+    filter: drop-shadow(0 0 0.8px #98c420);
+    background: rgba(152,196,32,.148)
+}
+
+.level-12-border {
+    border-color: #bbe24e
+}
+
+.level-13 {
+    color: #e7e977;
+    filter: drop-shadow(0 0 0.9388888889px #c1c41c);
+    background: rgba(193,196,28,.1563333333)
+}
+
+.level-13-border {
+    border-color: #dfe24b
+}
+
+.level-14 {
+    color: #e8cd73;
+    filter: drop-shadow(0 0 1.0888888889px #c49c18);
+    background: rgba(196,156,24,.1653333333)
+}
+
+.level-14-border {
+    border-color: #e1bd47
+}
+
+.level-15 {
+    color: #e8ae6f;
+    filter: drop-shadow(0 0 1.25px #c46f13);
+    background: rgba(196,111,19,.175)
+}
+
+.level-15-border {
+    border-color: #e09543
+}
+
+.level-16 {
+    color: #e78d6c;
+    filter: drop-shadow(0 0 1.4222222222px #c4400f);
+    background: rgba(196,64,15,.1853333333)
+}
+
+.level-16-border {
+    border-color: #e06b40
+}
+
+.level-17 {
+    color: #e66a68;
+    filter: drop-shadow(0 0 1.6055555556px #c40e0b);
+    background: rgba(196,14,11,.1963333333)
+}
+
+.level-17-border {
+    border-color: #df3f3c
+}
+
+.level-18 {
+    color: #e6646d;
+    filter: drop-shadow(0 0 1.8px #c40713);
+    background: rgba(196,7,19,.208)
+}
+
+.level-18-border {
+    border-color: #df3843
+}
+
+.level-19 {
+    color: #e56169;
+    filter: drop-shadow(0 0 2.0055555556px #c4020f);
+    background: rgba(196,2,15,.2203333333)
+}
+
+.level-19-border {
+    border-color: #de3540
+}
+
+.level-20 {
+    color: #e55d66;
+    filter: drop-shadow(0 0 2.2222222222px #c4000d);
+    background: rgba(196,0,13,.2333333333)
+}
+
+.level-20-border {
+    border-color: #dd313c
+}
+
+.level-21 {
+    color: #e45962;
+    filter: drop-shadow(0 0 2.45px #c4000d);
+    background: rgba(196,0,13,.247)
+}
+
+.level-21-border {
+    border-color: #dd2d39
+}
+
+.level-22 {
+    color: #e3565f;
+    filter: drop-shadow(0 0 2.6888888889px #c4000d);
+    background: rgba(196,0,13,.2613333333)
+}
+
+.level-22-border {
+    border-color: #dc2a35
+}
+
+.level-23 {
+    color: #e3525b;
+    filter: drop-shadow(0 0 2.9388888889px #c4000d);
+    background: rgba(196,0,13,.2763333333)
+}
+
+.level-23-border {
+    border-color: #dc2632
+}
+
+.level-24 {
+    color: #e24e58;
+    filter: drop-shadow(0 0 3.2px #c4000d);
+    background: rgba(196,0,13,.292)
+}
+
+.level-24-border {
+    border-color: #da242f
+}
+
+.level-25 {
+    color: #e24b55;
+    filter: drop-shadow(0 0 3.4722222222px #c4000d);
+    background: rgba(196,0,13,.3083333333)
+}
+
+.level-25-border {
+    border-color: #d6232f
+}
+
+.level-26 {
+    color: #e14751;
+    filter: drop-shadow(0 0 3.7555555556px #c4000d);
+    background: rgba(196,0,13,.3253333333)
+}
+
+.level-26-border {
+    border-color: #d3222e
+}
+
+.level-27 {
+    color: #e0434e;
+    filter: drop-shadow(0 0 4.05px #c4000d);
+    background: rgba(196,0,13,.343)
+}
+
+.level-27-border {
+    border-color: #cf222d
+}
+
+.level-28 {
+    color: #e0404a;
+    filter: drop-shadow(0 0 4.3555555556px #c4000d);
+    background: rgba(196,0,13,.3613333333)
+}
+
+.level-28-border {
+    border-color: #cb212c
+}
+
+.level-29 {
+    color: #df3c47;
+    filter: drop-shadow(0 0 4.6722222222px #c4000d);
+    background: rgba(196,0,13,.3803333333)
+}
+
+.level-29-border {
+    border-color: #c8212b
+}
+
+.level-30 {
+    color: #df3843;
+    filter: drop-shadow(0 0 5px #c4000d);
+    background: rgba(196,0,13,.4)
+}
+
+.level-30-border {
+    border-color: #c4202b
+}
+
+.desc {
+	color: #bbb;
+	font-size: 9pt;
+	font-weight: normal;
+}
+
+.mode-串 {
+    font-weight: bold;
+    color: #3c89c9
+}
+
+.mode-本 {
+    font-weight: bold;
+    color: #3ca03c
+}
+
+.mode-雙 {
+    font-weight: bold;
+    color: #8633a7
+}

@@ -23,8 +23,67 @@
 
 .chartBox {
 	background: var(--foreground);
-	color: var(--background);
+	color: var(--header-background);
 	width: 250px;
 	height: 250px;
 	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.difficultySelect {
+	font-weight: bold;
+}
+
+.chartDifficulty {
+	display: flex;
+	align-items: center;
+	margin: 10px;
+    background-color: rgba(0, 0, 0, .8);
+	padding: 5px;
+	border-radius: 15px;
+	width: 50%;
+}
+
+.chartDifficultyArrow {
+	font-size: 1.5em;
+	color: black;
+}
+
+.chartDifficulty>div {
+	margin: 0 5px;
+}
+
+.stars {
+	font-size:7px;
+	margin-bottom: -2px;
+	color: rgb(255, 213, 96);
+	display: flex;
+}
+
+.chartInfo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.chartMode {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+}
+
+.fontAwesomeIcon {
+	color: var(--foreground);
+}
+
+.chartTitle {
+	margin: 10px;
+}
+
+.songSinger {
+	font-size: 0.8em;
 }
