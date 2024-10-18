@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* styles/globals.css */
 :root {
+	--font-korean: 'FontKorean';
+	--font-japanese: 'FontJapanese';
 	--background: #4289cc;
 	--foreground: #212529;
 	--header-background: #D9D9D9;
@@ -134,3 +138,47 @@ h1 {
 h2 {
 	font-size: 1.5em;
 }
+
+
+
+
+/* Footer */
+
+footer {
+	background-color: var(--header-background);
+	height: 150px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+}
+
+.siteInfo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	text-shadow: 2px 2px 2px #353d44;
+}
+
+.outLink {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 20px;
+}
+
+.copyright {
+	font-size: 12px;
+	color: rgb(117, 117, 117);
+}
+
+.copyright>a {
+	color: rgb(161, 161, 161);
+}
+/* 
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 992px;
+} */

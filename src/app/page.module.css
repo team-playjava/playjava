@@ -5,17 +5,16 @@
 	align-items: center;
 	justify-content: center;
 	color: #e0e0e0;
-	margin-top: 250px;
 }
 
 .pageTopTitle {
 	text-shadow: 2px 2px 2px #353d44;
-	margin-bottom: 70px;
+	margin-bottom: 30px;
 	font-size: 2.4em;
 }
 
 .input {
-	width: 70%;
+	width: 100%;
 	max-width: 600px;
 	height: 40px;
 	border: none;
@@ -23,11 +22,35 @@
 	font-size: 1.7em;
 	background-color: var(--header-background);
 	color: var(--foreground);
-	padding: 35px 40px;
+	padding: 35px 55px;
 	box-shadow: 0 0 50px #000000;
 	text-overflow: ellipsis;
 }
 
 .input:focus {
 	outline:none;
+}
+
+.search {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 30px;
+}
+
+.searchIcon {
+	margin-right: -40px;
+	font-size: 20px;
+	z-index: 9;
+}
+
+.result {
+	width: 70%;
+	height: 370px;
+	background-color: var(--header-background);
+	margin-top: 40px;
+	margin-bottom: -100px;
+	border-radius: 15px;
+	padding: 20px;
 }

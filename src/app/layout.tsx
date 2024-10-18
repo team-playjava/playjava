@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./header";
+import Footer from "./footer";
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { FontJapanese, FontKorean } from "./fonts";
 config.autoAddCss = false
 
 export const metadata: Metadata = {
@@ -20,7 +22,8 @@ export default function RootLayout({
 		<html lang="en">
 			<body>
 				<Header />
-				<main>{children}</main>
+				<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
+				<Footer />
 			</body>
 		</html>
 	);

@@ -1,0 +1,136 @@
+.pageTop {
+	margin-bottom: 20px;
+}
+
+.pageTopTitle {
+	text-shadow: 2px 2px 2px #353d44;
+	font-size: 2.4em;
+}
+
+.chartList {
+	background: var(--header-background);
+	border-radius: 30px;
+	min-width: 500px;
+	min-height: 300px;
+	padding: 40px 30px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.chartBox {
+	background: var(--foreground);
+	color: var(--header-background);
+	width: 250px;
+	height: 250px;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	font-family: var(--font-korean), var(--font-japanese), 'Pretendard';
+	cursor: pointer;
+	transition: filter 0.3s;
+}
+
+.chartBox:hover {
+	filter: brightness(80%);
+}
+
+.difficultySelect {
+	font-weight: bold;
+}
+
+.chartDifficulty {
+	display: flex;
+	align-items: center;
+	margin: 10px;
+    background-color: rgba(0, 0, 0, .8);
+	padding: 5px;
+	border-radius: 15px;
+	width: 50%;
+}
+
+.chartDifficultyArrow {
+	font-size: 1.5em;
+	color: black;
+}
+
+.chartDifficulty>div {
+	margin: 0 5px;
+}
+
+.stars {
+	font-size:7px;
+	margin-bottom: -2px;
+	color: rgb(255, 213, 96);
+	display: flex;
+}
+
+.starInMenu {
+	margin-bottom: -2px;
+	color: rgb(255, 213, 96);
+	display: flex;
+}
+
+.chartInfo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.chartMode {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 100%;
+}
+
+.fontAwesomeIcon {
+	color: var(--foreground);
+}
+
+.chartTitle {
+	margin: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.songSinger {
+	font-size: 0.9em;
+	display: flex;
+	align-items: baseline;
+	white-space: nowrap;
+}
+
+.songTitle {
+	font-size: 1.2em;
+	max-height: 4.5em; /* 3줄 높이, 줄 간격이 1.5em일 경우 */
+	line-height: 1.5em; /* 줄 간격 설정 */
+	overflow-y: auto; /* 세로 스크롤 활성화 */
+	overflow-x: hidden;
+	white-space: normal; /* 여러 줄 텍스트 허용 */
+}
+
+.songTitle::-webkit-scrollbar {
+	width: 8px; /* 스크롤바의 너비 */	
+}
+
+.songTitle::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.3); /* 스크롤바 색상 */
+	border-radius: 4px; /* 스크롤바 모서리 */
+}
+  
+
+.desc {
+	font-size: 0.7em;
+	color: gray;
+	text-overflow: ellipsis;
+	width: 230px;
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+}

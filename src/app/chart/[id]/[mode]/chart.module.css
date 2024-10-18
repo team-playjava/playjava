@@ -1,0 +1,140 @@
+.topController {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom: 20px;
+	gap: 20px;
+}
+
+.backward {
+	background: #292929;
+	padding: 10px;
+	border-radius: 999px;
+	width: fit-content;
+	margin-bottom: 20px;
+	margin-top: -10px;
+	padding: 10px 20px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	transition: filter 0.3s;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.selected {
+	background: white;
+}
+
+.backward:hover {
+	filter: brightness(150%);
+}
+.selected:hover {
+	filter: brightness(100%);
+}
+
+.pageTop {
+	margin-bottom: 20px;
+	word-break: keep-all;
+}
+
+.pageTopTitle {
+	text-shadow: 2px 2px 2px #353d44;
+	font-size: 1.5em;
+	font-family: 'Pretendard', var(--font-japanese);
+}
+
+.fontAwesomeIcon {
+	color: var(--foreground);
+}
+
+.stars {
+	font-size:7px;
+	margin-bottom: -2px;
+	color: rgb(255, 213, 96);
+	display: flex;
+}
+
+.chartDifficulty {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin: 10px;
+    background-color: rgba(0, 0, 0, .8);
+	padding: 10px 5px;
+	border-radius: 15px;
+	width: 150px;
+}
+
+.chartDifficultyArrow {
+	font-size: 1.5em;
+	color: black;
+}
+
+.chartDifficulty>div {
+	margin: 0 5px;
+}
+
+.chartInfo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.chartTag {
+	display: flex;
+	justify-content: flex-start;
+	gap: 10px;
+	height: 100%;
+}
+
+.chartTagItem {
+	background-color: #353535;
+	padding: 10px 20px;
+	border-radius: 999px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	transition: all 0.3s;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.chartTagItem>label {
+	cursor: pointer;
+}
+
+.chartTagItem:hover {
+	filter: brightness(120%);
+	margin-top: -5px;
+	margin-bottom: 5px;
+}
+
+.chartInfoTag {
+	background-color: rgb(255, 255, 255);
+	color: #212529;
+	padding: 10px 20px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	transition: all 0.3s;
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.chartInfoTag>label {
+	cursor: pointer;
+}
+
+.chartInfoTag:hover {
+	filter: brightness(80%);
+	margin-top: -5px;
+}
+
+.chartInfoTag:active {
+	padding: 5px 15px;
+}
