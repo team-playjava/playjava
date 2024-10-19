@@ -106,6 +106,10 @@
 	cursor: pointer;
 }
 
+.chartTagItem:active {
+	margin-top: 5px;
+}
+
 .chartTagItem:hover {
 	filter: brightness(120%);
 	margin-top: -5px;
@@ -136,5 +140,5 @@
 }
 
 .chartInfoTag:active {
-	padding: 5px 15px;
+	margin-top: 5px;
 }

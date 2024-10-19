@@ -64,7 +64,7 @@ export default function Header() {
 					<>
 						<a
 							className="headerMenuBoxInner"
-							href="/community/replay"
+							href="/community/board"
 							onMouseEnter={() => setHoveredSecondBox(true)}
 							onMouseLeave={() => setHoveredSecondBox(false)}
 						>
@@ -72,7 +72,7 @@ export default function Header() {
 						</a>
 						<a
 							className="headerMenuBoxInner"
-							href="/community/info"
+							href="/community/solution"
 							onMouseEnter={() => setHoveredSecondBox(true)}
 							onMouseLeave={() => setHoveredSecondBox(false)}
 						>
@@ -80,7 +80,7 @@ export default function Header() {
 						</a>
 						<a
 							className="headerMenuBoxInner"
-							href="/community/info"
+							href="/community/replay"
 							onMouseEnter={() => setHoveredSecondBox(true)}
 							onMouseLeave={() => setHoveredSecondBox(false)}
 						>

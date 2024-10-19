@@ -54,3 +54,34 @@
 	border-radius: 15px;
 	padding: 20px;
 }
+
+
+
+
+
+.notFountBtn {
+	background-color: rgb(255, 255, 255);
+	color: #212529;
+	padding: 10px 20px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	transition: all 0.3s;
+	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.notFountBtn>label {
+	cursor: pointer;
+}
+
+.notFountBtn:hover {
+	filter: brightness(80%);
+	margin-top: -5px;
+}
+
+.notFountBtn:active {
+	margin-top: 5px;
+}

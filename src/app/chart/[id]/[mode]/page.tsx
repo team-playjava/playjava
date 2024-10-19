@@ -36,8 +36,8 @@ export default function Page() {
 						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={styles.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
 					</div>
 					<div className={styles.chartTag}>
-						<div className={styles.chartTagItem}><FontAwesomeIcon icon={faHashtag}/><label>가나다라</label></div>
-						<div className={styles.chartTagItem}><FontAwesomeIcon icon={faHashtag}/><label style={{color: '#ff3f2e'}}>마법사</label></div>
+						<div className={styles.chartTagItem} onClick={() => window.location.href = "/charts/tag/가나다라"}><FontAwesomeIcon icon={faHashtag}/><label>가나다라</label></div>
+						<div className={styles.chartTagItem} onClick={() => window.location.href = "/charts/tag/마법사"}><FontAwesomeIcon icon={faHashtag}/><label style={{color: '#ff3f2e'}}>마법사</label></div>
 					</div>
 				</div>
 			</div>
