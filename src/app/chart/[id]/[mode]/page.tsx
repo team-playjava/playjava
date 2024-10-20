@@ -6,12 +6,14 @@ import javaStyles from '../../../java.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faStar, faStarHalf, faHashtag, faArrowLeft, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import Error from 'next/error';
 
 export default function Page() {
 	const params = useParams(); // params.id 
 	const nowMode = decodeURIComponent(Array.isArray(params.mode) ? params.mode[0] : params.mode);
 	const modeList = [];
 	const mode = ['串', '本', '雙'];
+	if (!mode.includes(nowMode)) return <Error statusCode={404} />;
 	for(let i=0; i<3; i++) {
 		modeList.push(
 			<div key={mode[i]} className={mode[i] == nowMode ? [styles.backward, styles.selected].join(' ') : styles.backward } onClick={() => {if (mode[i] != nowMode) window.location.href = `./${mode[i]}`}}><div className={javaStyles[`mode-${mode[i]}`]}>{mode[i]}</div></div>

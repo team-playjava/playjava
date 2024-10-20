@@ -160,11 +160,16 @@ footer {
 	text-shadow: 2px 2px 2px #353d44;
 }
 
-.outLink {
+.outLink, .inLink {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	font-size: 20px;
+	justify-content: right;
+}
+
+.inLink {
+	font-size: 15px;
 }
 
 .copyright {

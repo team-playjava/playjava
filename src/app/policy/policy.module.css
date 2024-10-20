@@ -1,0 +1,46 @@
+.pageTop {
+	margin-bottom: 20px;
+	word-break: keep-all;
+	text-shadow: 2px 2px 2px #353d44;
+	font-family: 'Pretendard';
+	margin-left: -30px;
+}
+
+.chapter {
+	font-size: 2em;
+	font-weight: 900;
+	margin-left: -25px;
+	margin-top: 10px;
+}
+
+.article {
+	font-size: 1.5em;
+	margin-top: 10px;
+	margin-left: -20px;
+	font-weight: bold;
+}
+
+.page {
+	margin-left: 10px;
+	font-size: 15px;
+}
+
+.circleNumber {
+	width: 15px;
+	display: inline-block;
+	font-size: 0.7em;
+}
+
+.ul {
+	font-size: 0.4em;
+}
+
+ul.list {
+	list-style-type: square;
+	margin-left: 40px;
+}
+
+ol.list {
+	list-style-type: decimal;
+	margin-left: 40px;
+}

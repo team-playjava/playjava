@@ -29,6 +29,10 @@ export default function Footer() {
 				<a href="https://twitter.com/playJava_" target="_blank"><FontAwesomeIcon icon={faXTwitter} /></a>
 				<a href="https://discord.gg/ce4r2NBNxn" target="_blank"><FontAwesomeIcon icon={faDiscord} /></a>
 			</div>
+			<div className="inLink">
+				<a href="/policy/privacy">개인정보 처리방침</a>
+				<a href="/policy/operation">운영 정책</a>
+			</div>
 		</div>
 	</footer>
 }
