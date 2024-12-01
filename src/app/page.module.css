@@ -26,9 +26,15 @@
 	box-shadow: 0 0 50px #000000;
 	text-overflow: ellipsis;
 }
-
 .input:focus {
 	outline:none;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom: 1px solid #868686;
+}
+
+.resultFocus {
+	display: none;
 }
 
 .search {
@@ -55,9 +61,10 @@
 	align-items: flex-start;
 	margin-left: 10px;
 	background-color: var(--header-background);
-	margin-top: 10px;
-	border-radius: 15px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
 	padding: 20px;
+	padding-top: 15px;
 	height: 450px;
 	overflow: scroll;
 }

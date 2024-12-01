@@ -1,19 +1,29 @@
+"use client";
 import styles from './page.module.css';
 import chartStyle from './charts/charts.module.css';
 import javaStyles from './java.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faArrowRight, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 function RootComponent() {
+	const [isSearching, setSearching] = useState<boolean>(false);
+	
 	return (<>
 		<div className={styles.pageTop}>
 			<h1 className={styles.pageTopTitle}>playJava!</h1>
 			<div className={styles.search}>
 				<FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
-				<input type="text" className={styles.input} placeholder='채보, 유저, 게시글 검색' />
+				<input 
+					type="text" 
+					className={[styles.input, isSearching ? styles.inputFocus : ''].join(' ')} 
+					placeholder='채보, 유저, 게시글 검색' 
+					onFocus={() => setSearching(true)} 
+					onBlur={() => setSearching(false)}
+				/>
 			</div>
-			<div className={styles.result}>
+			<div className={styles.result} style={{display: isSearching ? 'flex' : 'none'}}>
 				<p className={styles.resultBlockTitle}>채보</p>
 				<a href="/chart/1/本" className={styles.resultChart}>
 					<div className={styles.resultChartLevel}>
