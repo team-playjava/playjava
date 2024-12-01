@@ -21,9 +21,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<Header />
-				<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
-				<Footer />
+				<div className="main">
+					<Header />
+					<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
+					<Footer />
+				</div>
 			</body>
 		</html>
 	);

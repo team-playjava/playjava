@@ -50,6 +50,7 @@ header {
 	border-radius: 10px;
 	display: flex;
 	align-items: center;
+	box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2), 0 -5px 5px rgba(0, 0, 0, 0.2), 5px 0 5px rgba(0, 0, 0, 0.2), -5px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .headerIcon {
@@ -107,20 +108,18 @@ header {
 }
 
 .headerLogin {
-	background: var(--btn-header-login-background);
+	background: #5865F2;
 	width: 20%;
 	max-width: 200px;
 	min-width: 150px;
 	border-radius: 150px;
 	margin-right: 10px;
 	padding: 10px 0;
-}
-
-.headerLoginInner {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;
+	padding-right: 20px;
 }
 
 @layer utilities {
@@ -187,3 +186,25 @@ body {
 	justify-content: space-between;
 	min-height: 992px;
 } */
+
+/* Reset styles for consistent rendering */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+}
+
+.main {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+main {
+	flex: 1;
+	padding: 1rem;
+}

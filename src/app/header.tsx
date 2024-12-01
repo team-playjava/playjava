@@ -90,11 +90,9 @@ export default function Header() {
 				)}
 			</div>
 		</div>
-		<div className="headerLogin">
-			<a className="headerLoginInner" href="/login">
-				<Image src={loginInfo} alt="login" width={30} height={30} />
-				로그인
-			</a>
-		</div>
+		<a className="headerLogin" href="/login">
+			<Image src={loginInfo} alt="login" width={30} height={30} />
+			로그인
+		</a>
 	</header>
 }
