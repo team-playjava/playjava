@@ -17,7 +17,7 @@ function RootComponent() {
 				<FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
 				<input 
 					type="text" 
-					className={[styles.input, isSearching ? styles.inputFocus : ''].join(' ')} 
+					className={styles.input} 
 					placeholder='채보, 유저, 게시글 검색' 
 					onFocus={() => setSearching(true)} 
 					onBlur={() => setSearching(false)}

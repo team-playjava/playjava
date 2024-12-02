@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image"
 import Logo from "./image/logo.webp"
-import loginCallbackWhite from "./image/discord-white.svg"
-import loginCallbackBlue from "./image/discord-blue.svg"
 import { useEffect, useState } from 'react';
+import SignIn from "@/components/sign-in";
 
 export default function Header() {
 	const [isDarkMode, setDarkMode] = useState<boolean>(false);
@@ -17,7 +16,6 @@ export default function Header() {
 		darkModeMediaQuery.addEventListener('change', handleColorSchemeChange);
 		return () => { darkModeMediaQuery.removeEventListener('change', handleColorSchemeChange) };
 	}, []);
-	const loginInfo = isDarkMode ? loginCallbackWhite : loginCallbackBlue;
 	return <header>
 		<a className="headerIcon" href="/">
 			<Image src={Logo} alt="logo" width={70} height={70} style={{margin: "0 auto"}} />
@@ -90,9 +88,6 @@ export default function Header() {
 				)}
 			</div>
 		</div>
-		<a className="headerLogin" href="/login">
-			<Image src={loginInfo} alt="login" width={30} height={30} />
-			로그인
-		</a>
+		<SignIn isDarkMode={isDarkMode} />
 	</header>
 }
