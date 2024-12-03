@@ -7,21 +7,11 @@
 :root {
 	--font-korean: 'FontKorean';
 	--font-japanese: 'FontJapanese';
-	--background: #4289cc;
-	--foreground: #212529;
-	--header-background: #D9D9D9;
-	--header-background-hover: #919191;
-	--btn-header-login-background: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #2b5d8b;
-		--foreground: #e0e0e0;
-		--header-background: #1f1f1f;
-		--header-background-hover: #5D5D5D;
-		--btn-header-login-background: #000000;
-	}
+	--background: #2b5d8b;
+	--foreground: #e0e0e0;
+	--header-background: #1f1f1f;
+	--header-background-hover: #5D5D5D;
+	--btn-header-login-background: #000000;
 }
 
 @font-face {
@@ -120,6 +110,14 @@ header {
 	justify-content: space-around;
 	padding-right: 20px;
 	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.loginOK  {
+	padding-right: 0;
+}
+.loginOK>label {
+	cursor: pointer;
 }
 
 .headerLogin:hover {

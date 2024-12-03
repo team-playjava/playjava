@@ -1,19 +1,34 @@
 "use client"
-import { signIn } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react"
 import Image from "next/image"
-import loginCallbackWhite from "@/app/image/discord-white.svg"
-import loginCallbackBlue from "@/app/image/discord-blue.svg"
+import loginImage from "@/app/image/discord-white.svg"
 
-interface SignInProps {
-	isDarkMode: boolean;
-}
-
-export default function SignIn({ isDarkMode }: SignInProps) {
-	const loginInfo = isDarkMode ? loginCallbackWhite : loginCallbackBlue;
-	return (
-		<a className="headerLogin" onClick={() => signIn("discord")}>
-			<Image src={loginInfo} alt="login" width={30} height={30} />
-			로그인
-		</a>
-	)
+export default function SignIn() {
+	const { data: session } = useSession()
+	console.log(session?.user)
+	if (session?.user?.name === undefined) {
+		return (
+			<a className="headerLogin" onClick={() => signIn("discord")}>
+				<Image src={loginImage} alt="login" width={30} height={30} />
+				로그인
+			</a>
+		)
+	} else {
+		return (
+			<a
+				className="headerLogin loginOK"
+				onClick={() => signOut()}
+				onMouseEnter={(e) => {
+					const label = e.currentTarget.querySelector('label');
+					if (label) label.textContent = "로그아웃";
+				}}
+				onMouseLeave={(e) => {
+					const label = e.currentTarget.querySelector('label');
+					if (label) label.textContent = session?.user?.name || "";
+				}}
+			>
+				<label>{session?.user?.name}</label>
+			</a>
+		)
+	}
 }

@@ -71,7 +71,7 @@ model Chart {
   songTitle       String
   chartTitle      String
   difficulty      String
-  levelType       String @default("official")
+  levelType       String
   referenceLevel  Int
   editorLevel     Int
 

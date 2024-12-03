@@ -6,6 +6,7 @@ import Footer from "./footer";
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { FontJapanese, FontKorean } from "./fonts";
+import { SessionProvider } from "next-auth/react";
 config.autoAddCss = false
 
 export const metadata: Metadata = {
@@ -19,12 +20,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="ko">
 			<body>
 				<div className="main">
-					<Header />
-					<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
-					<Footer />
+					<SessionProvider>
+						<Header />
+						<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
+						<Footer />
+					</SessionProvider>
 				</div>
 			</body>
 		</html>
