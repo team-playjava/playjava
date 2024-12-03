@@ -5,7 +5,7 @@ import styles from './chart.module.css';
 import javaStyles from '../../../java.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faStar, faStarHalf, faHashtag, faArrowLeft, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faStar, faStarHalf, faHashtag, faArrowLeft, faArrowUpRightFromSquare, faPencil } from '@fortawesome/free-solid-svg-icons'
 import Error from 'next/error';
 
 export default function Page() {
@@ -24,10 +24,11 @@ export default function Page() {
 	}
 	return (
 		<>
-			<title>{chartTitle} {nowMode} {chartName} - playJava!</title>
+			<title>{`${chartTitle} ${nowMode} ${chartName} - playJava!`}</title>
 			<div className={styles.topController}>
 				<div className={styles.backward} onClick={() => window.history.back()}><FontAwesomeIcon icon={faArrowLeft}/> 뒤로가기</div>
 				{modeList}
+				<div className={styles.backward} onClick={() => window.location.href = `./${nowMode}/edit`}><FontAwesomeIcon icon={faPencil}/> 수정</div>
 			</div>
 			<div className={styles.pageTop}>
 				<h1 className={styles.pageTopTitle}>{chartTitle}</h1>

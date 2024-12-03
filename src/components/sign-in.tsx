@@ -5,7 +5,6 @@ import loginImage from "@/app/image/discord-white.svg"
 
 export default function SignIn() {
 	const { data: session } = useSession()
-	console.log(session?.user)
 	if (session?.user?.name === undefined) {
 		return (
 			<a className="headerLogin" onClick={() => signIn("discord")}>
