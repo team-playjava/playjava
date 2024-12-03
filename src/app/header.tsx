@@ -81,7 +81,9 @@ export default function Header() {
 					)}
 				</div>
 			</div>
+			<div className="headerCredential">
 			<SignIn />
+			</div>
 		</header>
 	)
 }

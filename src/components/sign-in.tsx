@@ -15,20 +15,37 @@ export default function SignIn() {
 		)
 	} else {
 		return (
-			<a
+			<><a
 				className="headerLogin loginOK"
-				onClick={() => signOut()}
-				onMouseEnter={(e) => {
-					const label = e.currentTarget.querySelector('label');
-					if (label) label.textContent = "로그아웃";
+				onMouseEnter={() => {
+					document.querySelector('.userContext')?.classList.add('active')
+					document.querySelector('.loginOK')?.classList.add('active')
 				}}
-				onMouseLeave={(e) => {
-					const label = e.currentTarget.querySelector('label');
-					if (label) label.textContent = session?.user?.name || "";
+				onMouseLeave={() => {
+					document.querySelector('.userContext')?.classList.remove('active')
+					document.querySelector('.loginOK')?.classList.remove('active')
 				}}
 			>
+				<Image className="avatar" src={session?.user?.image || loginImage} alt="login" width={40} height={40} />
 				<label>{session?.user?.name}</label>
 			</a>
+			<div
+				className="userContext"
+				onMouseEnter={() => {
+					document.querySelector('.userContext')?.classList.add('active')
+					document.querySelector('.loginOK')?.classList.add('active')
+				}}
+				onMouseLeave={() => {
+					document.querySelector('.userContext')?.classList.remove('active')
+					document.querySelector('.loginOK')?.classList.remove('active')
+				}}
+			>
+				<a href="/user">내 정보</a>
+				<a href="/user/settings">설정</a>
+				<a href="/user/notifications">알림</a>
+				<a className="logout" onClick={() => signOut()}>로그아웃</a>
+			</div>
+			</>
 		)
 	}
 }
