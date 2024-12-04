@@ -12,10 +12,13 @@ type Props = {
 	};
 };
 
+type ChartSong = Chart & {
+	Song: Song;
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const chart : Chart = await fetchChart(params.id, params.mode);
-	const song : Song = await fetchSong(chart.songId);
-	const chartTitle = song.title; const chartName = chart.chartTitle
+	const chart : ChartSong = await fetchChart(params.id, params.mode);
+	const chartTitle = chart.Song.title; const chartName = chart.chartTitle
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 
 	return {
@@ -24,9 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-	const chart : Chart = await fetchChart(params.id, params.mode);
-	const song : Song = await fetchSong(chart.songId);
-	const chartTitle = song.title; const chartSubTitle = song.subTitle; const chartName = chart.chartTitle
+	const chart : ChartSong = await fetchChart(params.id, params.mode);
+	const chartTitle = chart.Song.title; const chartSubTitle = chart.Song.subTitle; const chartName = chart.chartTitle
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 	return (
 		<>

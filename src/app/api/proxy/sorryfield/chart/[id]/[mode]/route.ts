@@ -19,6 +19,7 @@ export async function GET(
 	try {
 		const chart = await prisma.chart.findUnique({
 			where: { id: Number(id) },
+			include: { Song: true }
 		}) as Song | null
 
 		if (!chart) {
@@ -34,7 +35,7 @@ export async function GET(
 					},
 				});
 			}
-			
+
 			const song = await prisma.song.findUnique({ where: { id: chartData.songId }, });
 			if (!song) { await fetch(`http://localhost:3000/api/proxy/sorryfield/song/${chartData.songId}`); }
 
