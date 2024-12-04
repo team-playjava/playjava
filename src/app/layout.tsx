@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import 'primeicons/primeicons.css';
 import 'tailwindcss/tailwind.css';
+import "./globals.css";
 import Header from "./header";
 import Footer from "./footer";
 
@@ -24,18 +24,18 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="ko">
-			<body>
-				<div className="main">
-					<SessionProvider>
-						<PrimeReactProvider>
+		<SessionProvider>
+			<PrimeReactProvider>
+				<html lang="ko">
+					<body>
+						<div className="main">
 							<Header />
 							<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
 							<Footer />
-						</PrimeReactProvider>
-					</SessionProvider>
-				</div>
-			</body>
-		</html>
+						</div>
+					</body>
+				</html>
+			</PrimeReactProvider>
+		</SessionProvider>
 	);
 }

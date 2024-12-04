@@ -1,53 +1,56 @@
-"use client";
-import { useParams } from 'next/navigation'
+import styles from '@/app/chart/[id]/[mode]/chart.module.css';
+import javaStyles from '@/app/java.module.css';
+import ChartTop from '@/components/chart-top';
+import { Chart, Song } from '@prisma/client';
 
-import styles from './chart.module.css';
-import javaStyles from '../../../java.module.css';
+type Props = {
+	params: {
+		id: string;
+		mode: "串" | "本" | "雙";
+	};
+};
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight, faStar, faStarHalf, faHashtag, faArrowLeft, faArrowUpRightFromSquare, faPencil } from '@fortawesome/free-solid-svg-icons'
-import Error from 'next/error';
-
-export default function Page() {
-	const params = useParams(); // params.id 
-	const chartTitle = "それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです"
-	const chartSubTitle = "(그래도 삶은 계속되기에 모든 것을 지금 잊기 위해선 모든 것을 지금 알고 있어야 하는게 조건인데 나에게는 너무 무리니까 하나하나 잊어가기 위해 사랑하는 사람들과 손을 잡고 함께 나누며 적어도 기억에 남지 않도록 살아가는 거야)"
-	const chartName = "Normal"
-	const nowMode = decodeURIComponent(Array.isArray(params.mode) ? params.mode[0] : params.mode);
-	const modeList = [];
-	const mode = ['串', '本', '雙'];
-	if (!mode.includes(nowMode)) return <Error statusCode={404} />;
-	for(let i=0; i<3; i++) {
-		modeList.push(
-			<div key={mode[i]} className={mode[i] == nowMode ? [styles.backward, styles.selected].join(' ') : styles.backward } onClick={() => {if (mode[i] != nowMode) window.location.href = `./${mode[i]}`}}><div className={javaStyles[`mode-${mode[i]}`]}>{mode[i]}</div></div>
-		)
-	}
+export default async function Page({ params }: Props) {
+	const chart : Chart = await fetchChart(params.id, params.mode);
+	const song : Song = await fetchSong(chart.songId);
+	const chartTitle = song.title; const chartSubTitle = song.subTitle; const chartName = chart.chartTitle
+	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 	return (
 		<>
-			<title>{`${chartTitle} ${nowMode} ${chartName} - playJava!`}</title>
-			<div className={styles.topController}>
-				<div className={styles.backward} onClick={() => window.history.back()}><FontAwesomeIcon icon={faArrowLeft}/> 뒤로가기</div>
-				{modeList}
-				<div className={styles.backward} onClick={() => window.location.href = `./${nowMode}/edit`}><FontAwesomeIcon icon={faPencil}/> 수정</div>
-			</div>
+			<title>{`${chartTitle} ${params.mode} ${chartName} - playJava!`}</title>
+			<ChartTop nowMode={nowMode} />
 			<div className={styles.pageTop}>
 				<h1 className={styles.pageTopTitle}>{chartTitle}</h1>
 				<p>{chartSubTitle}</p>
 			</div>
 			<div className={styles.pageBody}>
 				<div className={styles.chartInfo}>
-					<div className={styles.chartInfoTag} onClick={() => window.open(`https://sorry.daldal.so/java?mode=${nowMode}&id=${params.id}`)}><div className={javaStyles[`mode-${nowMode}`]}>{nowMode}</div> {chartName} <FontAwesomeIcon icon={faArrowUpRightFromSquare} /></div>
+					<a className={styles.chartInfoTag} href={`https://sorry.daldal.so/java?mode=${params.mode}&id=${params.id}`} target="_blank"><div className={javaStyles[`mode-${chart.mode}`]}>{nowMode}</div>{chartName}<i className="pi pi-external-link"/></a>
 					<div className={[styles.chartDifficulty].join(' ')}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={styles.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={styles.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
+						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={styles.stars}><i className="pi pi-star-half-fill"/></div>31</div>
+						<i className={[styles.fontAwesomeIcon, "pi pi-arrow-right"].join(' ')} />
+						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={styles.stars}><i className="pi pi-star-fill"/><i className="pi pi-star-fill"/></div>32</div>
 					</div>
 					<div className={styles.chartTag}>
-						<div className={styles.chartTagItem} onClick={() => window.location.href = "/charts/tag/가나다라"}><FontAwesomeIcon icon={faHashtag}/><label>가나다라</label></div>
-						<div className={styles.chartTagItem} onClick={() => window.location.href = "/charts/tag/마법사"}><FontAwesomeIcon icon={faHashtag}/><label style={{color: '#ff3f2e'}}>마법사</label></div>
+						<a className={styles.chartTagItem} href="/charts/tag/가나다라"><i className="pi pi-hashtag"/><label>가나다라</label></a>
+						<a className={styles.chartTagItem} href="/charts/tag/마법사"><i className="pi pi-hashtag"/><label style={{color: '#ff3f2e'}}>마법사</label></a>
 					</div>
 				</div>
 			</div>
 		</>
 	)
 }
+  
+const fetchChart = async (id: string, mode: string) => {
+	const response = await fetch(`http://localhost:3000/api/proxy/sorryfield/chart/${id}/${mode}`, {
+		cache: 'no-store',
+	});
+	return response.json();
+};
+  
+const fetchSong = async (id: number) => {
+	const response = await fetch(`http://localhost:3000/api/proxy/sorryfield/song/${id}`, {
+		cache: 'no-store',
+	});
+	return response.json();
+};

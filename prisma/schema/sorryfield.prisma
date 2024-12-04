@@ -1,0 +1,70 @@
+model Song {
+  id              Int      @id
+  locale          String
+  title           String
+  subTitle        String?
+  artist          String
+  artistSub       String?
+  subArtist       String?
+  gender          String
+  key             String
+  trebleModal     Int
+  trebleFalsetto  Int?
+  youtubeKaraoke  String
+  youtubeOriginal String
+  karaokeTJ       Int?
+  karaokeKY       Int?
+  karaokeJS       Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Chart Chart[]
+}
+
+model Chart {
+  id              Int @unique
+  songId          Int
+  chartTitle      String
+  mode            String
+  userId          String
+  referenceLevel  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Song Song @relation(fields: [songId], references: [id])
+  SorryfieldUser  SorryfieldUser @relation(fields: [userId], references: [id])
+  ChartLevel ChartLevel[]
+
+  @@id([id, mode])
+}
+
+model ChartLevel {
+  id              Int
+  mode            String
+  levelType       String
+  editorLevel     Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Chart           Chart @relation(fields: [id, mode], references: [id, mode])
+
+  @@id([id, mode])
+}
+
+model SorryfieldUser {
+  id            String @id
+  name          String
+  level         Int?
+  zzamG         Int?
+  zzamB         Int?
+  zzamS         Int?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Chart Chart[]
+  User User[]
+}
