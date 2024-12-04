@@ -1,7 +1,9 @@
 import styles from '@/app/chart/[id]/[mode]/chart.module.css';
 import javaStyles from '@/app/java.module.css';
+import { fetchChart, fetchSong } from '@/app/utils/data/sorryfield';
 import ChartTop from '@/components/chart-top';
 import { Chart, Song } from '@prisma/client';
+import type { Metadata } from 'next';
 
 type Props = {
 	params: {
@@ -10,6 +12,17 @@ type Props = {
 	};
 };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const chart : Chart = await fetchChart(params.id, params.mode);
+	const song : Song = await fetchSong(chart.songId);
+	const chartTitle = song.title; const chartName = chart.chartTitle
+	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
+
+	return {
+		title: `${chartTitle} ${nowMode} ${chartName} - playJava!`
+	};
+}
+
 export default async function Page({ params }: Props) {
 	const chart : Chart = await fetchChart(params.id, params.mode);
 	const song : Song = await fetchSong(chart.songId);
@@ -17,7 +30,6 @@ export default async function Page({ params }: Props) {
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 	return (
 		<>
-			<title>{`${chartTitle} ${params.mode} ${chartName} - playJava!`}</title>
 			<ChartTop nowMode={nowMode} />
 			<div className={styles.pageTop}>
 				<h1 className={styles.pageTopTitle}>{chartTitle}</h1>
@@ -40,17 +52,3 @@ export default async function Page({ params }: Props) {
 		</>
 	)
 }
-  
-const fetchChart = async (id: string, mode: string) => {
-	const response = await fetch(`http://localhost:3000/api/proxy/sorryfield/chart/${id}/${mode}`, {
-		cache: 'no-store',
-	});
-	return response.json();
-};
-  
-const fetchSong = async (id: number) => {
-	const response = await fetch(`http://localhost:3000/api/proxy/sorryfield/song/${id}`, {
-		cache: 'no-store',
-	});
-	return response.json();
-};
