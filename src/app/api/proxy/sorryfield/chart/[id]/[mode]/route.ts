@@ -19,7 +19,7 @@ export async function GET(
 	try {
 		const chart = await prisma.chart.findUnique({
 			where: { id: Number(id) },
-			include: { Song: true }
+			include: { Song: true, ChartLevel: true }
 		}) as Song | null
 
 		if (!chart) {

@@ -1,8 +1,8 @@
 import styles from '@/app/chart/[id]/[mode]/chart.module.css';
 import javaStyles from '@/app/java.module.css';
-import { fetchChart, fetchSong } from '@/app/utils/data/sorryfield';
+import { fetchChart } from '@/app/utils/data/sorryfield';
 import ChartTop from '@/components/chart-top';
-import { Chart, Song } from '@prisma/client';
+import { Chart, ChartLevel, Song } from '@prisma/client';
 import type { Metadata } from 'next';
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
 
 type ChartSong = Chart & {
 	Song: Song;
+	ChartLevel: ChartLevel[];
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

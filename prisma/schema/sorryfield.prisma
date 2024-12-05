@@ -44,7 +44,7 @@ model ChartLevel {
   id              Int
   mode            String
   levelType       String
-  editorLevel     Int
+  editorLevel     Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

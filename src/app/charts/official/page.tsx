@@ -1,23 +1,86 @@
+"use client"
 import styles from '../charts.module.css';
 import javaStyles from '../../java.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight, faStar, faStarHalf, faWarning } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react';
+import { fetchAllChart } from '@/app/utils/data/sorryfield';
+import { Chart, ChartLevel, Song } from '@prisma/client';
+
+type ChartSong = Chart & {
+	Song: Song;
+	ChartLevel: ChartLevel[];
+};
 
 export default function ChartsOfficial() {
+	const [loading, setLoading] = useState<boolean>(true);
+	const [charts, setCharts] = useState<ChartSong[]>([]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const charts : ChartSong[] = await fetchAllChart(); setCharts(charts);
+			setLoading(false);
+		};
+		fetchData();
+	}, [loading]);
+	
 	const itemLists = [];
 	for(let i=1; i<31; i++) {
 		itemLists.push(
 			<div className="item" data-active="false" key={`level-${i}`}><div className={[javaStyles.level, javaStyles[`level-${i}`]].join(' ')} data-level={`${i}`}>{i}</div></div>
 		);
 	}
+
+	const chartList: JSX.Element[] = [];
+	charts?.forEach((chart) => {
+		const chartRefStars: JSX.Element[] = [];
+		let lvl = 0;
+		for(lvl=chart.referenceLevel-30; lvl>0.5; lvl--) {
+			chartRefStars.push(<FontAwesomeIcon icon={faStar} />);
+		}
+		if (0 < lvl && lvl < 1) { chartRefStars.push(<FontAwesomeIcon icon={faStarHalf} />); }
+
+		let editorLevel: string | number = 0;
+		chart.ChartLevel.forEach((level) => {
+			if (level.levelType == 'official') {
+				editorLevel = level.editorLevel;
+			}
+		});
+		const chartNowStars: JSX.Element[] = [];
+		for(lvl=editorLevel-30; lvl>0.5; lvl--) {
+			chartNowStars.push(<FontAwesomeIcon icon={faStar} />);
+		}
+		if (0 < lvl && lvl < 1) { chartNowStars.push(<FontAwesomeIcon icon={faStarHalf} />) }
+		
+		chartList.push(
+			<a href={`/chart/${chart.id}/${chart.mode}`} className={styles.chartBox} key={`${chart.id}-${chart.mode}`}>
+				<div className={styles.chartInfo}>
+					<div className={[styles.chartDifficulty].join(' ')}>
+						<div className={[javaStyles.level, javaStyles[`level-${chart.referenceLevel}`]].join(' ')}><div className={styles.stars}>{chartRefStars}</div>{chart.referenceLevel == Math.floor(chart.referenceLevel) ? chart.referenceLevel : `${Math.floor(chart.referenceLevel)}`}</div>
+						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
+						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={styles.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
+					</div>
+					<div className={styles.chartMode}>
+						<p className={javaStyles[`mode-${chart.mode}`]}>{chart.mode}</p>
+						Normal
+					</div>
+				</div>
+				<div className={styles.chartTitle}>
+					<div className={styles.songSinger}>{chart.Song.artist}<div className={styles.desc}>({chart.Song.artistSub})</div></div>
+					<div className={styles.songTitle}>{chart.Song.title}</div>
+					<div className={styles.desc}>({chart.Song.subTitle})</div>
+				</div>
+			</a>
+		)
+	});
+	
 	return (
 		<>
 			<div className={styles.pageTop}>
 				<h1 className={styles.pageTopTitle}>playJava! 공식 책정 목록</h1>
 				<p>playJava!가 엄선하여 난도 책정 기준을 통과한 채보 목록입니다.</p>
 			</div>
-			{/* TODO: flex (chart.module.css), css 적용 (javarandomchart에서 가져오기) */}
 			<div>
 				<div className={[javaStyles['difficulty-bar'], javaStyles['difficulty-bar-option']].join(' ')}>
 					<label className={styles.difficultySelect}><input type="radio" name="difficulty" value="system" defaultChecked /> 시스템 난도</label>
@@ -30,54 +93,7 @@ export default function ChartsOfficial() {
 				</div>
 			</div>
 			<div className={styles.chartList}>
-				<a href="/chart/1/本" className={styles.chartBox}>
-					<div className={styles.chartInfo}>
-						<div className={[styles.chartDifficulty].join(' ')}>
-							<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={styles.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-							<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-							<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={styles.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-						</div>
-						<div className={styles.chartMode}>
-							<p className={javaStyles[`mode-${'本'}`]}>本</p>
-							Normal
-						</div>
-					</div>
-					<div className={styles.chartTitle}>
-						<div className={styles.songSinger}>BEGIN<div className={styles.desc}></div></div>
-						<div className={styles.songTitle}>それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです</div>
-						<div className={styles.desc}>(그래도 삶은 계속되기에 모든 것을 지금 잊기 위해선 모든 것을 지금 알고 있어야 하는게 조건인데 나에게는 너무 무리니까 하나하나 잊어가기 위해 사랑하는 사람들과 손을 잡고 함께 나누며 적어도 기억에 남지 않도록 살아가는 거야)</div>
-					</div>
-				</a>
-				<div className={styles.chartBox}>
-					<div className={styles.chartInfo}>
-						<div className={[styles.chartDifficulty].join(' ')}>
-							<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={styles.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-							<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-							<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={styles.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-						</div>
-						<div className={styles.chartMode}>
-							<p className={javaStyles[`mode-${'本'}`]}>本</p>
-							Normal
-						</div>
-					</div>
-					<div className={styles.chartTitle}>
-						<div className={styles.songSinger}>藤咲かりん<div className={styles.desc}>(miko)</div></div>
-						<div className={styles.songTitle}>魔理沙は大変なものを盗んでいきました</div>
-						<div className={styles.desc}>(마리사는 엄청난 것을 훔쳐갔습니다)</div>
-					</div>
-				</div>
-				<div className={styles.chartBox}>
-					
-				</div>
-				<div className={styles.chartBox}>
-					
-				</div>
-				<div className={styles.chartBox}>
-					
-				</div>
-				<div className={styles.chartBox}>
-					
-				</div>
+				{chartList && chartList.length > 0 ? chartList : <div>로딩 중...</div>}
 			</div>
 		</>
 	);

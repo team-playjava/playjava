@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import 'primeicons/primeicons.css';
 import 'tailwindcss/tailwind.css';
 import "./globals.css";
 import Header from "./header";
@@ -11,7 +10,6 @@ import { FontJapanese, FontKorean } from "./fonts";
 config.autoAddCss = false
 
 import { SessionProvider } from "next-auth/react";
-import { PrimeReactProvider } from 'primereact/api';
 
 export const metadata: Metadata = {
 	title: "playJava!",
@@ -25,17 +23,15 @@ export default function RootLayout({
 }>) {
 	return (
 		<SessionProvider>
-			<PrimeReactProvider>
-				<html lang="ko">
-					<body>
-						<div className="main">
-							<Header />
-							<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
-							<Footer />
-						</div>
-					</body>
-				</html>
-			</PrimeReactProvider>
+			<html lang="ko">
+				<body>
+					<div className="main">
+						<Header />
+						<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>
+						<Footer />
+					</div>
+				</body>
+			</html>
 		</SessionProvider>
 	);
 }
