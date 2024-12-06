@@ -63,7 +63,7 @@ export default function ChartsOfficial() {
 					</div>
 					<div className={styles.chartMode}>
 						<p className={javaStyles[`mode-${chart.mode}`]}>{chart.mode}</p>
-						Normal
+						{chart.chartTitle}
 					</div>
 				</div>
 				<div className={styles.chartTitle}>

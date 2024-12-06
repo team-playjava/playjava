@@ -28,7 +28,7 @@ model Chart {
   chartTitle      String
   mode            String
   userId          String
-  referenceLevel  Int
+  referenceLevel  Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -51,7 +51,7 @@ model ChartLevel {
 
   Chart           Chart @relation(fields: [id, mode], references: [id, mode])
 
-  @@id([id, mode])
+  @@id([id, mode, levelType])
 }
 
 model SorryfieldUser {

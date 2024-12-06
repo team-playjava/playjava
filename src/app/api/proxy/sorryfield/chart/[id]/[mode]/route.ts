@@ -18,12 +18,19 @@ export async function GET(
 
 	try {
 		const chart = await prisma.chart.findUnique({
-			where: { id: Number(id) },
+			where: { id: Number(id),mode: mode },
 			include: { Song: true, ChartLevel: true }
 		}) as Song | null
 
 		if (!chart) {
 			const javaChart = await fetch(`https://sorry.daldal.so/java?mode=${mode}&id=${Number(id)}`);
+			if (javaChart.status !== 200) {
+				return new NextResponse(JSON.stringify({
+					message: await javaChart.text()
+				}), {
+					status: javaChart.status
+				})
+			}
 			const chartData = JSON.parse((await javaChart.text()).split('window.__PROPS=')[1].split('</script>')[0]).data.chart;
 			
 			let user = await prisma.sorryfieldUser.findUnique({ where: { id: chartData.userId }, });
