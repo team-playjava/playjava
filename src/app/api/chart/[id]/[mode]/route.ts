@@ -46,8 +46,7 @@ export async function GET(
 	}
 }
 
-
-export async function MODIFY(
+export async function POST(
 	req: NextRequest,
 	{ params }: { params: Promise<{ id: number, mode: '串' | '本' | '雙' }> }
 ) {
@@ -63,28 +62,19 @@ export async function MODIFY(
 	}
 
 	try {
-		const chart = await prisma.chartLevel.update({
+		const chart = await prisma.chartLevel.upsert({
 			where: { id_mode: { id: Number(id), mode: mode }, levelType: levelType },
-			data: {
+			update: {
 				editorLevel: level
+			},
+			create: {
+				id: Number(id),
+				mode: mode,
+				editorLevel: level,
+				levelType: levelType
 			}
 		}) as unknown as Song | null
-
-		if (!chart) {
-			const chart = await prisma.chartLevel.create({
-				data: {
-					id: Number(id),
-					mode: mode,
-					editorLevel: level,
-					levelType: levelType
-				}
-			}) as unknown as Song | null
-			return new NextResponse(JSON.stringify(
-				chart
-			), {
-				status: 200
-			})
-		}
+		
 		return new NextResponse(JSON.stringify(
 			chart
 		), {

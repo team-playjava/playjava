@@ -57,7 +57,7 @@ export default function ChartsOfficial() {
 			<a href={`/chart/${chart.id}/${chart.mode}`} className={styles.chartBox} key={`${chart.id}-${chart.mode}`}>
 				<div className={styles.chartInfo}>
 					<div className={[styles.chartDifficulty].join(' ')}>
-						<div className={[javaStyles.level, javaStyles[`level-${chart.referenceLevel}`]].join(' ')}><div className={styles.stars}>{chartRefStars}</div>{chart.referenceLevel == Math.floor(chart.referenceLevel) ? chart.referenceLevel : `${Math.floor(chart.referenceLevel)}`}</div>
+						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel)}`]].join(' ')}><div className={styles.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
 						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
 						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={styles.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
 					</div>

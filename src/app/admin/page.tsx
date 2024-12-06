@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from '@/app/charts/charts.module.css';
 import javaStyles from '@/app/java.module.css';
@@ -15,6 +15,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Chart, ChartLevel, Song } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
+import { useSession } from 'next-auth/react';
+import { getPermission } from '../utils/data/permission';
 
 type ChartSong = Chart & {
 	Song: Song;
@@ -27,6 +29,23 @@ export default function AdminPage() {
 	const [chartId, setChartId] = useState<number | null>(null);
 	const [chartMode, setChartMode] = useState<Mode | null>(null);
 	const [chartLevel, setChartLevel] = useState<number | null>(null);
+	
+	const { data: session } = useSession();
+	const [permission, setPermission] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchPermission = async () => {
+			if (session?.user?.email) {
+				const perm = await getPermission(session.user.email);
+				setPermission(perm ?? 'user');
+			}
+		};
+		fetchPermission();
+	}, [session]);
+
+	if (permission !== 'admin') {
+		return <div>권한이 없어요.</div>;
+	}
 
 	// const [levelType, setLevelType] = useState<"official" | "unofficial" | null>(null);
 	
@@ -55,11 +74,13 @@ export default function AdminPage() {
 			alert('채보를 찾을 수 없어요.');
 			return null;
 		}
-		data.ChartLevel.some((level) => {
-			if (level.levelType == 'official') {
-				setChartLevel(level.editorLevel);
-			}
-		});
+		if (data?.ChartLevel !== null) {
+			data.ChartLevel.some((level) => {
+				if (level.levelType == 'official') {
+					setChartLevel(level.editorLevel);
+				}
+			});
+		};
 		return data;
 	}
 	const addChart = async () => {
@@ -67,7 +88,7 @@ export default function AdminPage() {
 		if (chartMode === null) { alert('모드를 선택해주세요!'); return null; }
 		if (chart === null) { alert('채보 검색을 진행해주세요!'); return null; }
 		const response = await fetch(`http://localhost:3000/api/chart/${chartId}/${chartMode}`, {
-			method: 'MODIFY',
+			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -80,6 +101,7 @@ export default function AdminPage() {
 			alert('반영하는 도중 문제가 생겼어요.');
 			return null;
 		}
+		setChart(null); setChartId(null); setChartMode(null); setChartLevel(null);
 		alert('정상적으로 반영했어요!')
 		return true;
 	}
@@ -113,9 +135,9 @@ export default function AdminPage() {
 					onChange={changeChartApplyMode}
 					aria-label="mode"
 				>
-					<ToggleButton value="串" className='px-3 py-1 bg-blue-400'>串</ToggleButton>
-					<ToggleButton value="本" className='px-3 py-1 bg-green-500'>本</ToggleButton>
-					<ToggleButton value="雙" className='px-3 py-1 bg-purple-500'>雙</ToggleButton>
+					<ToggleButton value="串" className='px-3 py-1 bg-blue-400'>&nbsp;串&nbsp;</ToggleButton>
+					<ToggleButton value="本" className='px-3 py-1 bg-green-500'>&nbsp;本&nbsp;</ToggleButton>
+					<ToggleButton value="雙" className='px-3 py-1 bg-purple-500'>&nbsp;雙&nbsp;</ToggleButton>
 				</ToggleButtonGroup>
 				<button className="p-2 pr-2.5 bg-blue-500 rounded-lg py-1" onClick={async () => {
 					const result = await searchChart(chartId!, chartMode!);
