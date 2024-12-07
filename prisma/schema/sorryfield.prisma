@@ -23,7 +23,7 @@ model Song {
 }
 
 model Chart {
-  id              Int @unique
+  id              Int
   songId          Int
   chartTitle      String
   mode            String
@@ -33,9 +33,10 @@ model Chart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Song Song @relation(fields: [songId], references: [id])
-  SorryfieldUser  SorryfieldUser @relation(fields: [userId], references: [id])
-  ChartLevel ChartLevel[]
+  Song           Song @relation(fields: [songId], references: [id])
+  SorryfieldUser SorryfieldUser @relation(fields: [userId], references: [id])
+  ChartLevel     ChartLevel[]
+  ChartTags      ChartTags[]
 
   @@id([id, mode])
 }
@@ -49,9 +50,23 @@ model ChartLevel {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Chart           Chart @relation(fields: [id, mode], references: [id, mode])
+  Chart Chart @relation(fields: [id, mode], references: [id, mode])
 
   @@id([id, mode, levelType])
+}
+
+model ChartTags {
+  id              Int
+  mode            String
+  tag             String
+  color           String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Chart Chart @relation(fields: [id, mode], references: [id, mode])
+
+  @@id([id, mode, tag])
 }
 
 model SorryfieldUser {

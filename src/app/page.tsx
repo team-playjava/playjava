@@ -6,9 +6,66 @@ import javaStyles from './java.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faArrowRight, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { searchChart } from '@/app/utils/data/sorryfield';
+import { Chart, ChartLevel, Song } from '@prisma/client';
+
+type ChartSong = Chart & {
+	Song: Song;
+	ChartLevel: ChartLevel[];
+};
+
 
 function RootComponent() {
 	const [isSearching, setSearching] = useState<boolean>(false);
+	const [charts, setCharts] = useState<JSX.Element[] | null>(null);
+
+	const chartList: JSX.Element[] = [];
+	const search = async (search: string) => {
+		chartList.splice(0);
+		const result: ChartSong[] = await searchChart(search ?? '');
+		console.log(result);
+		result.forEach(chart => {
+			const chartRefStars: JSX.Element[] = [];
+			let lvl = 0;
+			for(lvl=chart.referenceLevel-30; lvl>0.5; lvl--) {
+				chartRefStars.push(<FontAwesomeIcon icon={faStar} />);
+			}
+			if (0 < lvl && lvl < 1) { chartRefStars.push(<FontAwesomeIcon icon={faStarHalf} />); }
+
+			let editorLevel: string | number = 0;
+			chart.ChartLevel.forEach((level) => {
+				if (level.levelType == 'official') {
+					editorLevel = level.editorLevel;
+				}
+			});
+			const chartNowStars: JSX.Element[] = [];
+			for(lvl=editorLevel-30; lvl>0.5; lvl--) {
+				chartNowStars.push(<FontAwesomeIcon icon={faStar} />);
+			}
+			if (0 < lvl && lvl < 1) { chartNowStars.push(<FontAwesomeIcon icon={faStarHalf} />) }
+			
+			chartList.push(
+				<a href={`/chart/${chart.id}/${chart.mode}`} className={styles.resultChart} key={`${chart.id}-${chart.mode}`}>
+					<div className={styles.resultChartLevel}>
+						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel)}`]].join(' ')}><div className={chartStyle.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
+						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
+						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
+					</div>
+					<div className={styles.resultChartTitle}>
+						<div className={styles.resultChartTitleArtist}>
+							{chart.Song.artist}<div className={chartStyle.desc} style={{textAlign: 'left'}}>({chart.Song.subArtist})</div>
+						</div>
+						{chart.Song.title}
+					</div>
+					<div className={styles.resultChartMode}>
+						<p className={javaStyles[`mode-${chart.mode}`]}>{chart.mode}</p>
+						{chart.chartTitle}
+					</div>
+				</a>
+			);
+		});
+		setCharts(chartList);
+	}
 	
 	return (<>
 		<div className={styles.pageTop}>
@@ -17,104 +74,19 @@ function RootComponent() {
 				<FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
 				<input 
 					type="text" 
-					className={styles.input} 
+					className={[styles.input, isSearching ? styles.resultFocusInput : ''].join(' ')} 
 					placeholder='채보, 유저, 게시글 검색' 
-					onFocus={() => setSearching(true)} 
-					onBlur={() => setSearching(false)}
+					onFocus={() => setSearching(true)}
+					onBlur={() => setSearching(charts && charts.length > 0 ? true : false)}
+					onChange={(e) => search(e.target.value) }
 				/>
 			</div>
-			<div className={styles.result} style={{display: isSearching ? 'flex' : 'none'}}>
+			<div
+				className={styles.result}
+				style={{display: isSearching ? 'flex' : 'none'}}
+			>
 				<p className={styles.resultBlockTitle}>채보</p>
-				<a href="/chart/1/本" className={styles.resultChart}>
-					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-					</div>
-					<div className={styles.resultChartTitle}>
-						BEGIN<div className={chartStyle.desc}></div>
-						それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです
-					</div>
-					<div className={styles.resultChartMode}>
-						<p className={javaStyles[`mode-${'本'}`]}>本</p>
-						Normal
-					</div>
-				</a>
-				<a href="/chart/1/本" className={styles.resultChart}>
-					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-					</div>
-					<div className={styles.resultChartTitle}>
-						BEGIN<div className={chartStyle.desc}></div>
-						それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです
-					</div>
-					<div className={styles.resultChartMode}>
-						<p className={javaStyles[`mode-${'本'}`]}>本</p>
-						Normal
-					</div>
-				</a>
-				<a href="/chart/1/本" className={styles.resultChart}>
-					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-					</div>
-					<div className={styles.resultChartTitle}>
-						BEGIN<div className={chartStyle.desc}></div>
-						それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです
-					</div>
-					<div className={styles.resultChartMode}>
-						<p className={javaStyles[`mode-${'本'}`]}>本</p>
-						Normal
-					</div>
-				</a>
-				<a href="/chart/1/本" className={styles.resultChart}>
-					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-					</div>
-					<div className={styles.resultChartTitle}>
-						BEGIN<div className={chartStyle.desc}></div>
-						それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです
-					</div>
-					<div className={styles.resultChartMode}>
-						<p className={javaStyles[`mode-${'本'}`]}>本</p>
-						Normal
-					</div>
-				</a>
-				<a href="/chart/1/本" className={styles.resultChart}>
-					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-					</div>
-					<div className={styles.resultChartTitle}>
-						BEGIN<div className={chartStyle.desc}></div>
-						それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです
-					</div>
-					<div className={styles.resultChartMode}>
-						<p className={javaStyles[`mode-${'本'}`]}>本</p>
-						Normal
-					</div>
-				</a>
-				<a href="/chart/1/本" className={styles.resultChart}>
-					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`31`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStarHalf} /></div>31</div>
-						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-31`]].join(' ')} data-level={`32`}><div className={chartStyle.stars}><FontAwesomeIcon icon={faStar} /><FontAwesomeIcon icon={faStar} /></div>32</div>
-					</div>
-					<div className={styles.resultChartTitle}>
-						BEGIN<div className={chartStyle.desc}></div>
-						それでも暮らしは続くから 全てを 今 忘れてしまう為には 全てを 今 知っている事が条件で 僕にはとても無理だから 一つずつ忘れて行く為に 愛する人達と手を取り 分け合って せめて思い出さないように 暮らしを続けて行くのです
-					</div>
-					<div className={styles.resultChartMode}>
-						<p className={javaStyles[`mode-${'本'}`]}>本</p>
-						Normal
-					</div>
-				</a>
+				{charts}
 			</div>
 		</div>
 	</>);

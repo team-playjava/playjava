@@ -18,9 +18,9 @@ export async function GET(
 
 	try {
 		const chart = await prisma.chart.findUnique({
-			where: { id: Number(id), mode: mode },
-			include: { Song: true, ChartLevel: true }
-		}) as Song | null
+			where: { id_mode: { id: Number(id), mode: mode } },
+			include: { Song: true, ChartLevel: true, ChartTags: true }
+		})
 
 		if (!chart) {
 			return new NextResponse(JSON.stringify({
@@ -36,6 +36,7 @@ export async function GET(
 		})
 	} catch (error: unknown) {
 		const errorMessage = error instanceof Error ? error.message : 'Internal server error';
+		console.log(errorMessage)
 		return new NextResponse(JSON.stringify({
             message: errorMessage
         }), {
@@ -63,7 +64,7 @@ export async function POST(
 
 	try {
 		const chart = await prisma.chartLevel.upsert({
-			where: { id_mode: { id: Number(id), mode: mode }, levelType: levelType },
+			where: { id_mode_levelType: { id: Number(id), mode: mode, levelType: levelType } },
 			update: {
 				editorLevel: level
 			},

@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import { PrismaClient, Song } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -6,6 +7,14 @@ export async function GET(
 	req: NextRequest,
 	{ params }: { params: Promise<{ id: number, mode: '串' | '本' | '雙' }> }
 ) {
+	const session = await auth();
+	if (session?.user?.permission !== 'admin') {
+		return new NextResponse(JSON.stringify({
+			message: "Access denied"
+		}), {
+			status: 403
+		})
+	}
 	const { id, mode } = (await params);
 
 	if (!id || Array.isArray(id)) {
@@ -18,7 +27,7 @@ export async function GET(
 
 	try {
 		const chart = await prisma.chart.findUnique({
-			where: { id: Number(id),mode: mode },
+			where: { id_mode: { id: Number(id), mode: mode } },
 			include: { Song: true, ChartLevel: true }
 		}) as Song | null
 

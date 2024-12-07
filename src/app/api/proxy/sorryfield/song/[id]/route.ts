@@ -6,6 +6,14 @@ export async function GET(
 	req: NextRequest,
 	{ params }: { params: Promise<{ id: number }> }
 ) {
+	const session = await auth();
+	if (session?.user?.permission !== 'admin') {
+		return new NextResponse(JSON.stringify({
+			message: "Access denied"
+		}), {
+			status: 403
+		})
+	}
 	const id = (await params).id
 
 	if (!id || Array.isArray(id)) {

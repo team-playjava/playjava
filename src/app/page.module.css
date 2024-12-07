@@ -26,7 +26,7 @@
 	box-shadow: 0 0 50px #000000;
 	text-overflow: ellipsis;
 }
-.input:focus {
+.resultFocusInput {
 	outline:none;
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
@@ -153,4 +153,10 @@
 	width: 140px;
 	padding: 10px;
 	margin: 10px;
+}
+
+.resultChartTitleArtist {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }

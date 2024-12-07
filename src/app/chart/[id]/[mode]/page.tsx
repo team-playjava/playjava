@@ -2,7 +2,7 @@ import styles from '@/app/chart/[id]/[mode]/chart.module.css';
 import javaStyles from '@/app/java.module.css';
 import { fetchChart } from '@/app/utils/data/sorryfield';
 import ChartTop from '@/components/chart-top';
-import { Chart, ChartLevel, Song } from '@prisma/client';
+import { Chart, ChartLevel, ChartTags, Song } from '@prisma/client';
 import type { Metadata } from 'next';
 
 type Props = {
@@ -15,10 +15,12 @@ type Props = {
 type ChartSong = Chart & {
 	Song: Song;
 	ChartLevel: ChartLevel[];
+	ChartTags: ChartTags[];
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const chart : ChartSong = await fetchChart(params.id, params.mode);
+	if(!chart.Song) return { title: 'playJava!' };
 	const chartTitle = chart.Song.title; const chartName = chart.chartTitle
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 
@@ -29,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
 	const chart : ChartSong = await fetchChart(params.id, params.mode);
+	if(!chart.Song) return <></>;
 	const chartTitle = chart.Song.title; const chartSubTitle = chart.Song.subTitle; const chartName = chart.chartTitle
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 	const chartRefStars: JSX.Element[] = [];
@@ -49,12 +52,19 @@ export default async function Page({ params }: Props) {
 		chartNowStars.push(<i className="pi pi-star-fill" />);
 	}
 	if (0 < lvl && lvl < 1) { chartNowStars.push(<i className="pi pi-star-half-fill" />) }
+
+	const chartTags: JSX.Element[] = [];
+	chart.ChartTags.forEach((tag) => {
+		chartTags.push(
+			<a className={styles.chartTagItem} href={`/charts/tag/${tag.tag.replace("#", "")}`} key={`tag-${tag.tag.replace("#", "")}`}><i className="pi pi-hashtag"/><label style={{color: tag.color ?? ''}}>{tag.tag.replace("#", "")}</label></a>
+		);
+	});
 	return (
 		<>
 			<ChartTop nowMode={nowMode} />
 			<div className={styles.pageTop}>
 				<h1 className={styles.pageTopTitle}>{chartTitle}</h1>
-				<p>{chartSubTitle}</p>
+				<p>({chartSubTitle})</p>
 			</div>
 			<div className={styles.pageBody}>
 				<div className={styles.chartInfo}>
@@ -65,8 +75,7 @@ export default async function Page({ params }: Props) {
 						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={styles.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
 					</div>
 					<div className={styles.chartTag}>
-						<a className={styles.chartTagItem} href="/charts/tag/가나다라"><i className="pi pi-hashtag"/><label>가나다라</label></a>
-						<a className={styles.chartTagItem} href="/charts/tag/마법사"><i className="pi pi-hashtag"/><label style={{color: '#ff3f2e'}}>마법사</label></a>
+						{chartTags}
 					</div>
 				</div>
 			</div>
