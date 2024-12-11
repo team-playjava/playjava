@@ -21,6 +21,7 @@
     "@mui/material": "^6.1.10",
     "@prisma/client": "^6.0.1",
     "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
+    "monaco-editor": "^0.52.0",
     "next": "14.2.15",
     "next-auth": "^5.0.0-beta.25",
     "primeicons": "^7.0.0",
@@ -28,6 +29,7 @@
     "quill": "^2.0.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-monaco-editor": "^0.56.2",
     "react-toastify": "^10.0.6",
     "tui-auto-complete": "^2.1.6"
   },

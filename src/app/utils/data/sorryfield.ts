@@ -12,6 +12,13 @@ export const fetchAllChart = async () => {
 	return response.json();
 };
 
+export const fetchChartRaw = async (id: string, mode: string) => {
+	const response = await fetch(`http://localhost:3000/api/chart/${id}/${mode}/raw`, {
+		cache: 'no-store',
+	});
+	return response.text();
+};
+
 export const fetchSong = async (id: number) => {
 	const response = await fetch(`http://localhost:3000/api/proxy/sorryfield/song/${id}`, {
 		cache: 'no-store',

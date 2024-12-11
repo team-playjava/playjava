@@ -93,7 +93,7 @@ export default function ChartsOfficial() {
 				</div>
 			</div>
 			<div className={styles.chartList}>
-				{chartList && chartList.length > 0 ? chartList : <div>로딩 중...</div>}
+				{chartList && chartList.length > 0 ? chartList : <div><i className='pi pi-spin pi-spinner' style={{fontSize: '1.5em'}} /></div>}
 			</div>
 		</>
 	);

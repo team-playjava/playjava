@@ -1,8 +1,12 @@
 import { PrismaClient } from '@prisma/client'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
-export async function GET() {
+export async function GET(
+	req: NextRequest,
+	{ params }: { params: Promise<{ page: number }> }
+) {
+	const { page } = (await params);
 	try {
 		const chart = await prisma.chart.findMany({
 			include: { Song: true, ChartLevel: true },

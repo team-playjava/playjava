@@ -37,6 +37,7 @@ model Chart {
   SorryfieldUser SorryfieldUser @relation(fields: [userId], references: [id])
   ChartLevel     ChartLevel[]
   ChartTags      ChartTags[]
+  ChartRaw       ChartRaw[]
 
   @@id([id, mode])
 }
@@ -67,6 +68,19 @@ model ChartTags {
   Chart Chart @relation(fields: [id, mode], references: [id, mode])
 
   @@id([id, mode, tag])
+}
+
+model ChartRaw {
+  id              Int
+  mode            String
+  raw             String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Chart Chart @relation(fields: [id, mode], references: [id, mode])
+
+  @@id([id, mode])
 }
 
 model SorryfieldUser {
