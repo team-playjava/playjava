@@ -37,6 +37,10 @@ export default function BasicDemo() {
 	  // 에디터가 마운트되면 수행할 작업을 여기에 추가하세요.
 	};
 
+	const editorChange = (value: string, e: any) => {
+		setRaw(value);
+	}
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const chart : ChartSong = await fetchChart(id, mode); setChart(chart);
@@ -59,12 +63,14 @@ export default function BasicDemo() {
 		const chartTitle = chart.Song.title; const chartName = chart.chartTitle
 		const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 		return (<>
-			<div className={styles.pageTop} style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline', gap: '5px'}}>
+			<div className={[styles.pageTop, "flex flex-row items-baseline gap-1"].join(' ')}>
+				<a href={`/chart/${id}/${mode}`} className="flex flex-row items-baseline gap-1 hover:bg-gray-400 p-1 px-2 rounded cursor-pointer">
 				<h1 className={styles.pageTopTitle}>{chartTitle}</h1>
-				<p style={{display: 'flex', gap: '10px', fontSize: '20px', marginLeft: '10px'}}><label className={javaStyles[`mode-${'本'}`]}>{nowMode}</label> {chartName}</p>
+				<p className="flex gap-2 text-xl ml-2"><label className={[javaStyles[`mode-${'本'}`], "cursor-pointer"].join(" ")}>{nowMode}</label> {chartName}</p>
+				</a>
 				<p>{rawText !== null ? '(수정)' : '(새 채보 문서 생성)'}</p>
 			</div>
-			<div className="w-4/5 border p-4 rounded pb-14">
+			<div className="w-3/4 border p-4 rounded pb-14">
 				<MonacoEditor
 					width="100%"
 					height="500px"
@@ -72,6 +78,12 @@ export default function BasicDemo() {
 					editorDidMount={editorDidMount}
 					value={rawText}
 					theme={'vs-dark'}
+					onChange={editorChange}
+					options={{
+						minimap: {
+							enabled: false
+						}
+					}}
 				/>
 				<div className="mt-2 flex flex-col">
 					<label><input type="checkbox" className="mr-1" />문서 편집을 저장하면 당신은 기여한 내용을 <b>CC-BY-NC-SA 2.0 KR</b>으로 배포하고 기여한 문서에 대한 하이퍼링크나 URL을 이용하여 저작자 표시를 하는 것으로 충분하다는 데 동의하는 것입니다. <b>이 동의는 철회할 수 없습니다.</b></label>
