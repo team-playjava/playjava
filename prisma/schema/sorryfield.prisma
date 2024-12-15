@@ -85,7 +85,7 @@ model ChartRaw {
 
 model SorryfieldUser {
   id            String @id
-  name          String
+  name          String @unique
   level         Int?
   zzamG         Int?
   zzamB         Int?

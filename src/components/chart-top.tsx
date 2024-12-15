@@ -13,10 +13,14 @@ const ChartTop: React.FC<ChartTopProps> = ({ nowMode }) => {
 		)
 	}
 	return (<>
-		<div className={styles.topController}>
-			<div className={styles.backward} onClick={() => window.history.back()}><i className="pi pi-arrow-left"/> 뒤로가기</div>
-			{modeList}
-			<div className={styles.backward} onClick={() => window.location.href = `./${nowMode}/edit`}><i className="pi pi-pencil"/> 수정</div>
+		<div className='flex flex-row justify-between'>
+			<div className={styles.topController}>
+				<div className={styles.backward} onClick={() => window.history.back()}><i className="pi pi-arrow-left"/> 뒤로가기</div>
+				{modeList}
+			</div>
+			<div className={styles.topController}>
+				<div className={styles.backward} onClick={() => window.location.href = `./${nowMode}/edit`}><i className="pi pi-pencil"/> 수정</div>
+			</div>
 		</div>
 	</>)
 }

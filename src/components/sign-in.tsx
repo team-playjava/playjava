@@ -40,9 +40,9 @@ export default function SignIn() {
 					document.querySelector('.loginOK')?.classList.remove('active')
 				}}
 			>
-				<a href="/user">내 정보</a>
-				<a href="/user/settings">설정</a>
-				<a href="/user/notifications">알림</a>
+				<a href="/my">내 정보</a>
+				<a href="/my/settings">설정</a>
+				<a href="/my/notifications">알림</a>
 				<a className="logout" onClick={() => signOut()}>로그아웃</a>
 			</div>
 			</>
