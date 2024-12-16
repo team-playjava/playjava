@@ -9,9 +9,8 @@ export async function GET(
 	const nick = (await params).nick
 
 	try {
-		const sorryfield = await fetch(`https://sorry.daldal.so/java/studio/${nick}`);
+		const sorryfield = await fetch(`https://sorry.daldal.so/java/studio/${nick}`, {cache: 'no-cache'});
 		const userData = JSON.parse((await sorryfield.text()).split('window.__PROPS=')[1].split('</script>')[0]);
-		console.log(userData);
 		const user = await prisma.sorryfieldUser.upsert({
 			where: { id: userData.data.userId },
 			create: {
