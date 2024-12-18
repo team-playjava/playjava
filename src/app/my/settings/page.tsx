@@ -10,7 +10,7 @@ declare module "next-auth" {
   }
 }
 
-export default function SignIn() {
+export default function MySetting() {
 	const { data: session } = useSession();
 	const [javaNickname, setJavaNickname] = useState<string | null>(null);
 	const [sorryfieldCheckCode, setSorryfieldCheckCode] = useState<string | null>(null);
@@ -42,7 +42,6 @@ export default function SignIn() {
 					data.placements[i].staticItemId === 'normal-text' &&
 					data.placements[i].transform.content.includes(id)
 				) {
-					console.log("OK")
 					const link = await fetch(`/api/user/link`, {
 						method: 'POST',
 						body: JSON.stringify({
@@ -51,12 +50,16 @@ export default function SignIn() {
 						}),
 						headers: { 'Content-Type': 'application/json' }
 					});
-					const btn = document.getElementById('sorryfieldCheck') as HTMLButtonElement;
-					btn.style.display = 'none';
-					return link.status === 200 ? alert("연동이 완료되었습니다!") : alert("연동 중 오류가 발생했어요.");
+					
+					if (link.status === 200) {
+						alert("연동이 완료되었습니다!");
+						(document.getElementById('sorryfieldCheck') as HTMLButtonElement).style.display = 'none';
+					} else {
+						alert("연동 중 오류가 발생했어요.");
+					}
+					return;
 				}
 			}
-			console.log(session?.user?.id, data);
 		}
 	}
 
@@ -91,13 +94,14 @@ export default function SignIn() {
 						>{sorryfieldCheckCode}</label><label className="text-sm">(누르면 복사)</label>
 						를 입력 후 다시 검증 버튼을 눌러주세요!</p>
 					)}
-					<button
-						type="submit"
-						className="bg-blue-500 text-white rounded p-2 mt-2"
-						id="sorryfieldCheck"
-						onClick={sorryfieldUserCheck}
-						style={{display: javaNickname ? 'none' : undefined}}
-					>검증</button>
+					{!javaNickname && (
+						<button
+							type="submit"
+							className="bg-blue-500 text-white rounded p-2 mt-2"
+							id="sorryfieldCheck"
+							onClick={sorryfieldUserCheck}
+						>검증</button>
+					)}
 				</div>
 			</div>
 		</>)

@@ -16,10 +16,12 @@ export async function GET(
 			create: {
 				id: userData.data.userId,
 				name: userData.data.name,
+				icon: userData.data.studioSettings.icon,
 				level: userData.data.level
 			},
 			update: {
 				name: userData.data.name,
+				icon: userData.data.studioSettings.icon,
 				level: userData.data.level
 			},
 		});

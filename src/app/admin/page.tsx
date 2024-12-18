@@ -16,7 +16,7 @@ import { Chart, ChartLevel, Song } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { useSession } from 'next-auth/react';
-import { getPermission } from '../utils/data/permission';
+import { getPermission } from '../utils/data/user';
 
 type ChartSong = Chart & {
 	Song: Song;

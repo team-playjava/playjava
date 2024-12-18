@@ -6,6 +6,11 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'cdn.discordapp.com',
 				pathname: '/**'
+			},
+			{
+				protocol: 'https',
+				hostname: 'sorry.daldal.so',
+				pathname: '/**'
 			}
 		]
 	}
