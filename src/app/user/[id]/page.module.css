@@ -1,0 +1,72 @@
+.Icon {
+	color: var(--foreground);
+}
+
+.resultChart {
+	background: var(--foreground);
+	color: var(--header-background);
+	font-family: var(--font-korean), var(--font-japanese), 'Pretendard';
+	cursor: pointer;
+	border-radius: 15px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	transition: all 0.2s ease;
+}
+
+.resultChart:hover {
+	filter: brightness(85%);
+}
+
+.resultChartTitle {
+    display: inline-flex;
+    text-overflow: ellipsis;
+    width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    justify-content: unset;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.resultChartMode {
+	display: inline-block;
+	text-overflow: ellipsis;
+	width: 100px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.resultChartLevel {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--header-background);
+	color: var(--foreground);
+	border-radius: 10px;
+	width: 140px;
+	padding: 10px;
+	margin: 10px;
+}
+
+.resultChartTitleArtist {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.chartList {
+	display: flex;
+	flex-direction: row;
+	justify-content: start;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 1rem 0.75rem;
+	transition: all 0.3s ease-in-out;
+}
+
+.hidden {
+	display: none;
+}

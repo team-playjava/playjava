@@ -47,15 +47,17 @@ function RootComponent() {
 			chartList.push(
 				<a href={`/chart/${chart.id}/${chart.mode}`} className={styles.resultChart} key={`${chart.id}-${chart.mode}`}>
 					<div className={styles.resultChartLevel}>
-						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel)}`]].join(' ')}><div className={chartStyle.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
+						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel) <= 31 ? Math.round(chart.referenceLevel) : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
 						<FontAwesomeIcon icon={faArrowRight} className={styles.fontAwesomeIcon} />
-						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
+						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? Math.floor(editorLevel) : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
 					</div>
 					<div className={styles.resultChartTitle}>
 						<div className={styles.resultChartTitleArtist}>
-							{chart.Song.artist}<div className={chartStyle.desc} style={{textAlign: 'left'}}>({chart.Song.subArtist})</div>
+							{chart.Song.artist}<div className={styles.desc} style={{textAlign: 'left'}}>{chart.Song.subArtist && `(${chart.Song.subArtist})`}</div>
 						</div>
-						{chart.Song.title}
+						<div className={styles.resultChartTitleArtist}>
+							{chart.Song.title}<div className={styles.desc}>{chart.Song.subTitle && `(${chart.Song.subTitle})`}</div>
+						</div>
 					</div>
 					<div className={styles.resultChartMode}>
 						<p className={javaStyles[`mode-${chart.mode}`]}>{chart.mode}</p>

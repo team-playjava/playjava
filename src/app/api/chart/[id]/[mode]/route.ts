@@ -1,4 +1,4 @@
-import { PrismaClient, Song } from '@prisma/client'
+import { ChartLevel, PrismaClient } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 const prisma = new PrismaClient()
@@ -74,7 +74,7 @@ export async function POST(
 				editorLevel: level,
 				levelType: levelType
 			}
-		}) as unknown as Song | null
+		})
 		
 		return new NextResponse(JSON.stringify(
 			chart

@@ -1,4 +1,3 @@
-import { auth } from '@/auth';
 import { PrismaClient, Song } from '@prisma/client'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -7,14 +6,6 @@ export async function GET(
 	req: NextRequest,
 	{ params }: { params: Promise<{ id: number }> }
 ) {
-	const session = await auth();
-	if (session?.user?.permission !== 'admin') {
-		return new NextResponse(JSON.stringify({
-			message: "Access denied"
-		}), {
-			status: 403
-		})
-	}
 	const id = (await params).id
 
 	if (!id || Array.isArray(id)) {

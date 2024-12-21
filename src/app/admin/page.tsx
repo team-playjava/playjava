@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import styles from '@/app/charts/charts.module.css';
 import javaStyles from '@/app/java.module.css';
@@ -16,7 +16,6 @@ import { Chart, ChartLevel, Song } from '@prisma/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faStar, faStarHalf } from '@fortawesome/free-solid-svg-icons';
 import { useSession } from 'next-auth/react';
-import { getPermission } from '../utils/data/user';
 
 type ChartSong = Chart & {
 	Song: Song;
@@ -25,25 +24,12 @@ type ChartSong = Chart & {
 
 export default function AdminPage() {
 	const [chart, setChart] = useState<ChartSong | null>(null);
-
 	const [chartId, setChartId] = useState<number | null>(null);
 	const [chartMode, setChartMode] = useState<Mode | null>(null);
 	const [chartLevel, setChartLevel] = useState<number | null>(null);
-	
+
 	const { data: session } = useSession();
-	const [permission, setPermission] = useState<string | null>(null);
-
-	useEffect(() => {
-		const fetchPermission = async () => {
-			if (session?.user?.email) {
-				const perm = await getPermission(session.user.email);
-				setPermission(perm ?? 'user');
-			}
-		};
-		fetchPermission();
-	}, [session]);
-
-	if (permission !== 'admin') {
+	if (session?.user?.permission !== 'admin') {
 		return <div>권한이 없어요.</div>;
 	}
 
@@ -116,6 +102,7 @@ export default function AdminPage() {
 	return (
 		<>
 		<h1>관리자</h1>
+		<p>현재 곶 시스템 난도가 경지인 채보 등재가 안됩니다. 방법을 찾아볼테니 이 경우 라이니를 호출해주세요.</p>
 		<div className="border p-3 rounded-lg my-2">
 			<h2>채보 등록/수정</h2>
 			<div className="flex flex-row gap-3 mt-2 items-center">
@@ -200,7 +187,41 @@ export default function AdminPage() {
 			<h2>스프레드시트 데이터 → playJava! 변환</h2>
 			<div className="flex flex-col gap-3 mt-2 items-start">
 				<textarea name="story" rows={10} cols={90} className="rounded-lg text-black" autoFocus />
-				<button className="p-2 px-5 pl-4 bg-blue-500 rounded-lg flex items-center gap-2"><EditIcon /> 등록</button>
+				<button
+					className="p-2 px-5 pl-4 bg-blue-500 rounded-lg flex items-center gap-2"
+					onClick={async () => {
+						const sheet = document.querySelector('textarea')?.value;
+						if (sheet) {
+							sheet.split('\n').forEach(async (line) => {
+								const data = line.split('	');
+								await fetch(`http://localhost:3000/api/proxy/sorryfield/chart/${data[1]}/${data[0]}`);
+								await fetch(`http://localhost:3000/api/chart/${data[1]}/${data[0]}`, {
+									method: 'POST',
+									headers: {
+										'Content-Type': 'application/json',
+									},
+									body: JSON.stringify({
+										level: Number(data[3]),
+										levelType: 'official',
+									}),
+								});
+								data.forEach(async (d) => {
+									if(d.startsWith('#')) {
+										await fetch(`http://localhost:3000/api/chart/${data[1]}/${data[0]}/tag`, {
+											method: 'POST',
+											headers: {
+												'Content-Type': 'application/json',
+											},
+											body: JSON.stringify({
+												tag: d.replace('#', '')
+											}),
+										});
+									}
+								});
+							});
+						}
+					}}
+				><EditIcon /> 등록</button>
 			</div>
 		</div>
 		</>

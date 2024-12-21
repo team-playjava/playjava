@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "./header";
 import Footer from "./footer";
 
+import NextTopLoader from 'nextjs-toploader';
 import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { FontJapanese, FontKorean } from "./fonts";
@@ -25,7 +26,9 @@ export default function RootLayout({
 	return (
 		<SessionProvider>
 			<html lang="ko">
+				<link rel="icon" href="/favicon.ico" sizes="any" />
 				<body>
+					<NextTopLoader/>
 					<div className="main">
 						<Header />
 						<main className={`${FontKorean.variable} ${FontJapanese.variable}`}>{children}</main>

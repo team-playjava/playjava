@@ -32,13 +32,18 @@ export async function GET(
 		}) as Song | null
 
 		if (!chart) {
-			const javaChart = await fetch(`https://sorry.daldal.so/java?mode=${mode}&id=${Number(id)}`);
+			let javaChart = await fetch(`https://sorry.daldal.so/java?mode=${mode}&id=${Number(id)}`);
 			if (javaChart.status !== 200) {
-				return new NextResponse(JSON.stringify({
-					message: await javaChart.text()
-				}), {
-					status: javaChart.status
-				})
+				console.log(await javaChart.text());
+				javaChart = await fetch(`https://sorry.daldal.so/java?mode=串&id=${Number(id)}`);
+				if (javaChart.status !== 200) {
+					console.log(await javaChart.text());
+					return new NextResponse(JSON.stringify({
+						message: await javaChart.text()
+					}), {
+						status: javaChart.status
+					})
+				}
 			}
 			const chartData = JSON.parse((await javaChart.text()).split('window.__PROPS=')[1].split('</script>')[0]).data.chart;
 			

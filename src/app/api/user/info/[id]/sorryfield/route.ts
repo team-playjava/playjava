@@ -10,7 +10,8 @@ export async function GET(
 
 	try {
 		const user = await prisma.sorryfieldUser.findUnique({
-			where: { id: id }
+			where: { id: id },
+			include: { UserJjams: true }
 		})
 		return new NextResponse(JSON.stringify(
 			user

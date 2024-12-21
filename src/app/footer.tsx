@@ -20,9 +20,9 @@ export default function Footer() {
 			<Image src={Logo} alt="logo" width={70} height={70} />
 			<h1>playJava!</h1>
 		</div>
-		<p className="copyright">ⓒ 2024 Starlight Studios, All rights reserved.</p>
-		<p className="copyright">playJava!는 쏘리들, 자바!의 서드파티 서비스입니다.</p>
+		<p className="copyright">ⓒ 2024 Starlight Studios, All rights reserved. playJava!는 쏘리들, 자바!의 서드파티 서비스입니다.</p>
 		<p className="copyright"><a href="https://sorry.daldal.so/" target="_blank">쏘리들 (Sorryfield)</a> 및 <a href="https://sorry.daldal.so/java" target="_blank">자바! (Java!)</a> 의 상표권은 <a href="https://github.com/JJoriping" target="_blank">쪼리핑 (JJoriping)</a>, <a href="https://daldal.so" target="_blank">달달소 (daldal.so)</a> 및 그 제휴 관계에 있습니다.</p>
+		<p className="copyright">&quot;모레미 스티커&quot;는 cash0509(캐시)님의 저작물이며, 달달소 디스코드에서 사용할 수 있습니다.</p>
 	</div>
 		<div className="footerRight">
 			<div className="outLink">

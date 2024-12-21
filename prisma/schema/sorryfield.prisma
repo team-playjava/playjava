@@ -20,6 +20,8 @@ model Song {
   updatedAt DateTime @updatedAt
 
   Chart Chart[]
+
+  PlayRecords PlayRecords[]
 }
 
 model Chart {
@@ -29,6 +31,7 @@ model Chart {
   mode            String
   userId          String
   referenceLevel  Float
+  playVideo       String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,6 +43,7 @@ model Chart {
   ChartRaw       ChartRaw[]
 
   @@id([id, mode])
+  PlayRecords PlayRecords[]
 }
 
 model ChartLevel {
@@ -88,13 +92,57 @@ model SorryfieldUser {
   name          String @unique
   icon          String?
   level         Int?
-  zzamG         Int?
-  zzamB         Int?
-  zzamS         Int?
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   Chart Chart[]
   User User[]
+
+  UserJjams UserJjams[]
+
+  PlayRecords PlayRecords[]
+}
+
+model UserJjams {
+  id String @id
+  G  Float?
+  B  Float?
+  S  Float?
+  H  Float?
+  GT Int?
+  BT Int?
+  ST Int?
+  HT Int?
+
+  SorryFieldUser SorryfieldUser @relation(fields: [id], references: [id])
+}
+
+model PlayRecords {
+  id                     Int
+
+  songId                 Int
+  chartId                Int
+  mode                   String
+  userId                 String
+
+  accuracy               Float
+  accuracyBonus          Float
+  score                  Int
+  grade                  String
+
+  advantage_rateNarrow   Float?
+  advantage_noteSpeed    Float?
+  advantage_transparency Boolean?
+
+  playDate               DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Song Song @relation(fields: [songId], references: [id])
+  Chart Chart @relation(fields: [chartId, mode], references: [id, mode])
+  SorryfieldUser SorryfieldUser @relation(fields: [userId], references: [id])
+
+  @@id([id, mode])
 }

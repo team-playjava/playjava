@@ -37,9 +37,9 @@ export default async function Page({ params }: Props) {
 	const chartRefStars: JSX.Element[] = [];
 	let lvl = 0;
 	for(lvl=chart.referenceLevel-30; lvl>0.5; lvl--) {
-		chartRefStars.push(<i className="pi pi-star-fill" />);
+		chartRefStars.push(<i key="star" className="pi pi-star-fill" />);
 	}
-	if (0 < lvl && lvl < 1) { chartRefStars.push(<i className="pi pi-star-half-fill" />); }
+	if (0 < lvl && lvl < 1) { chartRefStars.push(<i key="star" className="pi pi-star-half-fill" />); }
 
 	let editorLevel: string | number = 0;
 	chart.ChartLevel.forEach((level) => {
@@ -49,9 +49,9 @@ export default async function Page({ params }: Props) {
 	});
 	const chartNowStars: JSX.Element[] = [];
 	for(lvl=editorLevel-30; lvl>0.5; lvl--) {
-		chartNowStars.push(<i className="pi pi-star-fill" />);
+		chartNowStars.push(<i key="star" className="pi pi-star-fill" />);
 	}
-	if (0 < lvl && lvl < 1) { chartNowStars.push(<i className="pi pi-star-half-fill" />) }
+	if (0 < lvl && lvl < 1) { chartNowStars.push(<i key="star" className="pi pi-star-half-fill" />) }
 
 	const chartTags: JSX.Element[] = [];
 	chart.ChartTags.forEach((tag) => {
@@ -70,10 +70,20 @@ export default async function Page({ params }: Props) {
 				<div className={styles.chartInfo}>
 					<a className={styles.chartInfoTag} href={`https://sorry.daldal.so/java?mode=${params.mode}&id=${params.id}`} target="_blank"><div className={javaStyles[`mode-${chart.mode}`]}>{nowMode}</div>{chartName}<i className="pi pi-external-link"/></a>
 					<div className={[styles.chartDifficulty].join(' ')}>
-						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel)}`]].join(' ')}><div className={styles.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
+						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel) <= 31 ? Math.round(chart.referenceLevel) : 31}`]].join(' ')}><div className={styles.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
 						<i className={[styles.fontAwesomeIcon, "pi pi-arrow-right"].join(' ')} />
-						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={styles.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
+						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? Math.floor(editorLevel) : 31}`]].join(' ')}><div className={styles.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
 					</div>
+					{chart.playVideo && (
+						<div className={styles.chartVideo}>
+							<a
+								href={chart.playVideo} target="_blank" rel="noopener noreferrer"
+								className='bg-white px-4 py-2 rounded-xl mr-2 flex items-center hover:bg-gray-300 transition-all hover:-mt-1'
+							>
+								<i className="pi pi-youtube text-3xl text-red-600" />
+							</a>
+						</div>
+					)}
 					<div className={styles.chartTag}>
 						{chartTags}
 					</div>
