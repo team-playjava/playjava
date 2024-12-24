@@ -6,11 +6,12 @@ import styles from './page.module.css';
 import chartStyle from '@/app/charts/charts.module.css';
 import javaStyles from '@/app/java.module.css';
 import UserChartList from "@/components/user-chart-list";
+import UserUpdate from "@/components/update-user";
 
 import { JjamTier } from "@/app/utils/enums";
-import { getChartsByUser, getUserById, getUserByName } from "@/app/utils/data/user";
+import { getChartsByUser, getRecordsByUser, getUserById, getUserByName } from "@/app/utils/data/user";
 import UserLevel from "@/components/user-level/user-level";
-import { Chart, ChartLevel, Song, SorryfieldUser, UserJjams } from "@prisma/client";
+import { Chart, ChartLevel, PlayRecords, Song, SorryfieldUser, UserJjams } from "@prisma/client";
 import { elapsedTime } from "@/app/utils/func";
 
 declare module "next-auth" {
@@ -34,6 +35,13 @@ type ChartSong = Chart & {
 	ChartLevel: ChartLevel[];
 };
 
+type RecordChart = PlayRecords & {
+	Song: Song;
+	Chart: Chart & {
+		ChartLevel: ChartLevel[];
+	};
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const nickname = decodeURIComponent(params.id);
 	const user : JavaUser | null = nickname.startsWith("@") ? await getUserByName(nickname.slice(1)) : await getUserById(params.id);
@@ -48,15 +56,16 @@ export default async function UserInfo({ params }: Props) {
 	const nickname = decodeURIComponent(params.id);
 	const user : JavaUser | null = nickname.startsWith("@") ? await getUserByName(nickname.slice(1)) : await getUserById(params.id);
 	if (!user) return <></>;
+
 	const charts : ChartSong[] = await getChartsByUser(user?.id);
 	const chartList: JSX.Element[] = [];
 	charts.forEach((chart) => {
 		const chartRefStars: JSX.Element[] = [];
 		let lvl = 0;
 		for(lvl=chart.referenceLevel-30; lvl>0.5; lvl--) {
-			chartRefStars.push(<i className={["pi pi-star-fill", styles.Icon].join(' ')} />);
+			chartRefStars.push(<i className={["pi pi-star-fill", styles.IconStar].join(' ')} key={`ref_filledStar${lvl}`} />);
 		}
-		if (0 < lvl && lvl < 1) { chartRefStars.push(<i className={["pi pi-star-half-fill", styles.Icon].join(' ')} />); }
+		if (0 < lvl && lvl < 1) { chartRefStars.push(<i className={["pi pi-star-half-fill", styles.IconStar].join(' ')} key={`ref_filledStarHalf`} />); }
 
 		let editorLevel: string | number = 0;
 		chart.ChartLevel.forEach((level) => {
@@ -66,9 +75,9 @@ export default async function UserInfo({ params }: Props) {
 		});
 		const chartNowStars: JSX.Element[] = [];
 		for(lvl=editorLevel-30; lvl>0.5; lvl--) {
-			chartNowStars.push(<i className={["pi pi-star-fill", styles.Icon].join(' ')} />);
+			chartNowStars.push(<i className={["pi pi-star-fill", styles.IconStar].join(' ')} key={`editor_filledStar${lvl}`} />);
 		}
-		if (0 < lvl && lvl < 1) { chartNowStars.push(<i className={["pi pi-star-half-fill", styles.Icon].join(' ')} />); }
+		if (0 < lvl && lvl < 1) { chartNowStars.push(<i className={["pi pi-star-half-fill", styles.IconStar].join(' ')} key={`editor_filledStarHalf`} />); }
 		
 		chartList.push(
 			<a href={`/chart/${chart.id}/${chart.mode}`} className={["w-4/1", styles.resultChart].join(' ')} id={`${chart.id}-${chart.mode}`} key={`${chart.id}-${chart.mode}`}>
@@ -90,7 +99,42 @@ export default async function UserInfo({ params }: Props) {
 			</a>
 		)
 	})
+
+	// const records : RecordChart[] = await getRecordsByUser(user?.id);
 	const recordList: JSX.Element[] = [];
+	// records.forEach((record) => {
+	// 	const chartStars: JSX.Element[] = [];
+	// 	let chartLevel = record?.Chart?.referenceLevel;
+	// 	record.Chart.ChartLevel.forEach((level) => {
+	// 		if (level.levelType == 'official') {
+	// 			chartLevel = level.editorLevel;
+	// 		}
+	// 	});
+	// 	let lvl = 0;
+	// 	for(lvl=chartLevel-30; lvl>0.5; lvl--) {
+	// 		chartStars.push(<i className={["pi pi-star-fill", styles.IconStar].join(' ')} key={`ref_filledStar${lvl}`} />);
+	// 	}
+	// 	if (0 < lvl && lvl < 1) { chartStars.push(<i className={["pi pi-star-half-fill", styles.IconStar].join(' ')} key={`ref_filledStarHalf`} />); }
+
+	// 	recordList.push(
+	// 		<a href={`/chart/${record.id}/${record.mode}`} className={["w-4/1", styles.resultChart].join(' ')} id={`${record.id}-${record.mode}`} key={`${record.id}-${record.mode}`}>
+	// 			<div className={styles.resultChartLevel}>
+	// 				<div className={[javaStyles.level, javaStyles[`level-${Math.floor(chartLevel) <= 31 ? chartLevel : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartStars}</div>{chartLevel == Math.floor(chartLevel) ? chartLevel : `${Math.floor(chartLevel)}`}</div>
+	// 			</div>
+	// 			<div className={styles.resultChartTitle}>
+	// 				<div className={styles.resultChartTitleArtist}>
+	// 					{record.Song.artist}<div className={chartStyle.desc} style={{textAlign: 'left'}}>({record.Song.subArtist})</div>
+	// 				</div>
+	// 				{record.Song.title}
+	// 			</div>
+	// 			<div className={styles.resultChartMode}>
+	// 				<p className={javaStyles[`mode-${record.mode}`]}>{record.mode}</p>
+	// 				{record.Chart.chartTitle}
+	// 			</div>
+	// 		</a>
+	// 	)
+	// })
+
 	return (<>
 		<div className="flex flex-row items-center gap-3">
 			<Image
@@ -108,10 +152,7 @@ export default async function UserInfo({ params }: Props) {
 					<p>{elapsedTime(user.updatedAt.getTime())}</p>
 				</div>
 			</div>
-			<div className="text-xl px-3 py-1 bg-blue-500 rounded-lg border border-blue-700 hover:bg-blue-700 cursor-default transition-all flex flex-row gap-2 items-center">
-				<i className="pi pi-refresh" />
-				갱신
-			</div>
+			<UserUpdate />
 		</div>
 		<div className="flex flex-row gap-3">
 			<div className="mt-5 h-screen w-1/4">

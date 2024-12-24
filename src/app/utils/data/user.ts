@@ -28,3 +28,12 @@ export const getChartsByUser = async function (id: string) {
 	});
 	return charts;
 }
+
+export const getRecordsByUser = async function (id: string) {
+	const prisma = new PrismaClient()
+	const records = await prisma.playRecords.findMany({
+		where: { userId: id },
+		include: { Song: true, Chart: { include: { ChartLevel: true } } }
+	});
+	return records;
+}

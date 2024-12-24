@@ -2,6 +2,10 @@
 	color: var(--foreground);
 }
 
+.IconStar {
+	color: rgb(255, 236, 130);
+}
+
 .resultChart {
 	background: var(--foreground);
 	color: var(--header-background);
