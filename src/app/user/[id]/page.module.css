@@ -74,3 +74,232 @@
 .hidden {
 	display: none;
 }
+
+/* ------------------------ */
+
+.grade-container {
+    margin: auto;
+    font-size: 4pt;
+    text-shadow: none
+}
+
+.grade-container>.grade {
+    position: relative;
+    top: 0;
+    left: 0;
+    animation: none
+}
+
+.resultGrade {
+	display: flex; flex-direction: row; gap: 10px;
+	align-items: center; justify-content: center;
+	width: 20%;
+	margin-top: 10px; margin-bottom: 10px;
+}
+
+.grade {
+    font-family: Impact,fantasy;
+	background: var(--header-background);
+	padding-left: 10px; padding-right: 10px;
+	display: flex; align-items: center; justify-content: center;
+	border-radius: 15px;
+	width: 100%;
+}
+
+.grade::before,.grade::after {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
+}
+
+.grade::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+    background-size: .2em 100%;
+    background-repeat: no-repeat;
+    animation: Sparkle linear 3s infinite
+}
+
+.grade>.light {
+    position: relative;
+    animation: LightBeat linear 3s infinite
+}
+
+.grade>.light::before {
+    position: absolute;
+    content: "";
+    top: calc(-250px - 0.2em);
+    left: calc(-250px + 50%);
+    width: 500px;
+    height: 500px
+}
+
+.grade-Sppp {
+    font-size: 4em
+}
+
+.grade-Sppp::before {
+    content: "S+++";
+    background-image: linear-gradient(175deg, #e65a68 40%, #bd1d2c 70%)
+}
+
+.grade-Sppp::after {
+    content: "S+++"
+}
+
+.grade-Sppp>.light::before {
+    background-image: radial-gradient(circle at center, rgba(237, 134, 144, 0.15) 0%, transparent 50%)
+}
+
+.grade-Spp {
+    font-size: 4em
+}
+
+.grade-Spp::before {
+    content: "S++";
+    background-image: linear-gradient(175deg, #9b36e3 40%, #65169d 70%)
+}
+
+.grade-Spp::after {
+    content: "S++"
+}
+
+.grade-Spp>.light::before {
+    background-image: radial-gradient(circle at center, rgba(178, 99, 233, 0.15) 0%, transparent 50%)
+}
+
+.grade-Sp {
+    font-size: 4em
+}
+
+.grade-Sp::before {
+    content: "S+";
+    background-image: linear-gradient(175deg, #6456dc 40%, #3123a9 70%)
+}
+
+.grade-Sp::after {
+    content: "S+"
+}
+
+.grade-Sp>.light::before {
+    background-image: radial-gradient(circle at center, rgba(139, 128, 229, 0.15) 0%, transparent 50%)
+}
+
+.grade-S {
+    font-size: 4em
+}
+
+.grade-S::before {
+    content: "S";
+    background-image: linear-gradient(175deg, #5a7ae0 40%, #2144b3 70%)
+}
+
+.grade-S::after {
+    content: "S"
+}
+
+.grade-S>.light::before {
+    background-image: radial-gradient(circle at center, rgba(133, 156, 232, 0.15) 0%, transparent 50%)
+}
+
+.grade-Appp {
+    font-size: 3em
+}
+
+.grade-Appp::before {
+    content: "A+++";
+    background-image: linear-gradient(175deg, #53afe1 40%, #1e7db0 70%)
+}
+
+.grade-Appp::after {
+    content: "A+++"
+}
+
+.grade-App {
+    font-size: 3em
+}
+
+.grade-App::before {
+    content: "A++";
+    background-image: linear-gradient(175deg, #60e6df 40%, #1fc1b9 70%)
+}
+
+.grade-App::after {
+    content: "A++"
+}
+
+.grade-Ap {
+    font-size: 3em
+}
+
+.grade-Ap::before {
+    content: "A+";
+    background-image: linear-gradient(175deg, #77e3c6 40%, #2aca9f 70%)
+}
+
+.grade-Ap::after {
+    content: "A+"
+}
+
+.grade-A {
+    font-size: 3em
+}
+
+.grade-A::before {
+    content: "A";
+    background-image: linear-gradient(175deg, #54e28f 40%, #1fb15b 70%)
+}
+
+.grade-Bp {
+    font-size: 2em
+}
+
+.grade-Bp::before {
+    content: "B+";
+    background-image: linear-gradient(175deg, #aada5e 40%, #78aa28 70%)
+}
+
+.grade-Bp::after {
+    content: "B+"
+}
+
+.grade-B {
+    font-size: 2em
+}
+
+.grade-B::before {
+    content: "B";
+    background-image: linear-gradient(175deg, #d0e25b 40%, #a2b621 70%)
+}
+
+.grade-B::after {
+    content: "B"
+}
+
+.grade-Cp {
+    font-size: 2em
+}
+
+.grade-Cp::before {
+    content: "C+";
+    background-image: linear-gradient(175deg, #c1c98e 40%, #97a34e 70%)
+}
+
+.grade-Cp::after {
+    content: "C+"
+}
+
+.grade-C {
+    font-size: 2em
+}
+
+.grade-C::before {
+    content: "C";
+    background-image: linear-gradient(175deg, #c1c4af 40%, #939875 70%)
+}
+
+.grade-C::after {
+    content: "C"
+}

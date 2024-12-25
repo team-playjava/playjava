@@ -9,7 +9,7 @@ import UserChartList from "@/components/user-chart-list";
 import UserUpdate from "@/components/update-user";
 
 import { JjamTier } from "@/app/utils/enums";
-import { getChartsByUser, getRecordsByUser, getUserById, getUserByName } from "@/app/utils/data/user";
+import { getChartsByUser, getRecordsByUser, getRecordsByUserByMode, getUserById, getUserByName } from "@/app/utils/data/user";
 import UserLevel from "@/components/user-level/user-level";
 import { Chart, ChartLevel, PlayRecords, Song, SorryfieldUser, UserJjams } from "@prisma/client";
 import { elapsedTime } from "@/app/utils/func";
@@ -100,40 +100,56 @@ export default async function UserInfo({ params }: Props) {
 		)
 	})
 
-	// const records : RecordChart[] = await getRecordsByUser(user?.id);
+	const records : RecordChart[] = await getRecordsByUser(user?.id);
 	const recordList: JSX.Element[] = [];
-	// records.forEach((record) => {
-	// 	const chartStars: JSX.Element[] = [];
-	// 	let chartLevel = record?.Chart?.referenceLevel;
-	// 	record.Chart.ChartLevel.forEach((level) => {
-	// 		if (level.levelType == 'official') {
-	// 			chartLevel = level.editorLevel;
-	// 		}
-	// 	});
-	// 	let lvl = 0;
-	// 	for(lvl=chartLevel-30; lvl>0.5; lvl--) {
-	// 		chartStars.push(<i className={["pi pi-star-fill", styles.IconStar].join(' ')} key={`ref_filledStar${lvl}`} />);
-	// 	}
-	// 	if (0 < lvl && lvl < 1) { chartStars.push(<i className={["pi pi-star-half-fill", styles.IconStar].join(' ')} key={`ref_filledStarHalf`} />); }
+	records.forEach((record) => {
+		const chart = record.Chart;
+		const chartRefStars: JSX.Element[] = [];
+		let lvl = 0;
+		for(lvl=chart.referenceLevel-30; lvl>0.5; lvl--) {
+			chartRefStars.push(<i className={["pi pi-star-fill", styles.IconStar].join(' ')} key={`ref_filledStar${lvl}`} />);
+		}
+		if (0 < lvl && lvl < 1) { chartRefStars.push(<i className={["pi pi-star-half-fill", styles.IconStar].join(' ')} key={`ref_filledStarHalf`} />); }
 
-	// 	recordList.push(
-	// 		<a href={`/chart/${record.id}/${record.mode}`} className={["w-4/1", styles.resultChart].join(' ')} id={`${record.id}-${record.mode}`} key={`${record.id}-${record.mode}`}>
-	// 			<div className={styles.resultChartLevel}>
-	// 				<div className={[javaStyles.level, javaStyles[`level-${Math.floor(chartLevel) <= 31 ? chartLevel : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartStars}</div>{chartLevel == Math.floor(chartLevel) ? chartLevel : `${Math.floor(chartLevel)}`}</div>
-	// 			</div>
-	// 			<div className={styles.resultChartTitle}>
-	// 				<div className={styles.resultChartTitleArtist}>
-	// 					{record.Song.artist}<div className={chartStyle.desc} style={{textAlign: 'left'}}>({record.Song.subArtist})</div>
-	// 				</div>
-	// 				{record.Song.title}
-	// 			</div>
-	// 			<div className={styles.resultChartMode}>
-	// 				<p className={javaStyles[`mode-${record.mode}`]}>{record.mode}</p>
-	// 				{record.Chart.chartTitle}
-	// 			</div>
-	// 		</a>
-	// 	)
-	// })
+		let editorLevel: string | number | null = null;
+		chart.ChartLevel.forEach((level) => {
+			if (level.levelType == 'official') {
+				editorLevel = level.editorLevel;
+			}
+		});
+		const chartNowStars: JSX.Element[] = [];
+		if (editorLevel){
+			for(lvl=editorLevel-30; lvl>0.5; lvl--) {
+				chartNowStars.push(<i className={["pi pi-star-fill", styles.IconStar].join(' ')} key={`editor_filledStar${lvl}`} />);
+			}
+			if (0 < lvl && lvl < 1) { chartNowStars.push(<i className={["pi pi-star-half-fill", styles.IconStar].join(' ')} key={`editor_filledStarHalf`} />); }
+		}
+		recordList.push(
+			<a href={`https://sorry.daldal.so/java/record/${record.userId}/${record.id}`} target="_blank" className={["w-4/1", styles.resultChart].join(' ')} id={`${record.id}-${record.mode}`} key={`${record.id}-${record.mode}`}>
+				<div className={styles.resultChartLevel}>
+					<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel)}`]].join(' ')}><div className={chartStyle.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
+					{editorLevel && (<>
+						<i className={["pi pi-arrow-right", styles.Icon].join(' ')} />
+						<div className={[javaStyles.level, javaStyles[`level-${Math.floor(editorLevel) <= 31 ? editorLevel : 31}`]].join(' ')}><div className={chartStyle.stars}>{chartNowStars}</div>{editorLevel == Math.floor(editorLevel) ? editorLevel : `${Math.floor(editorLevel)}`}</div>
+					</>)}
+				</div>
+				<div className={styles.resultChartTitle}>
+					<div className={styles.resultChartTitleArtist}>
+						{record.Song.artist}<div className={chartStyle.desc} style={{textAlign: 'left'}}>{record.Song.subArtist ? `(${record.Song.subArtist})` : ""}</div>
+					</div>
+					{record.Song.title}
+				</div>
+				<div className={styles.resultChartMode}>
+					<p className={javaStyles[`mode-${record.mode}`]}>{record.mode}</p>
+					{record.Chart.chartTitle}
+				</div>
+				<div className={[styles.resultChartMode, styles.resultGrade].join(' ')}>
+					<div className="grade-container"><div className={[styles.grade, styles[`grade-${record.grade}`]].join(" ")}></div></div>
+					<label>{`${((record.accuracy+record.accuracyBonus)*100).toFixed(3)}%`}</label>
+				</div>
+			</a>
+		)
+	})
 
 	return (<>
 		<div className="flex flex-row items-center gap-3">
@@ -166,6 +182,10 @@ export default async function UserInfo({ params }: Props) {
 							</div>
 							{user?.UserJjams[0]?.H ? Math.round(user.UserJjams[0].H) : "(없음)"}
 						</div>
+						<div className="flex flex-row items-center gap-2 m-3">
+							<p className="text-left text-sm text-gray-400">플레이 횟수</p>
+							{recordList.length}	
+						</div>
 				</div>
 			</div>
 			<div className="w-3/4">
@@ -180,6 +200,10 @@ export default async function UserInfo({ params }: Props) {
 							</div>
 							{user?.UserJjams[0]?.G ? Math.round(user.UserJjams[0].G) : "(없음)"}
 						</div>
+						<div className="flex flex-row items-center gap-2 m-3">
+							<p className="text-left text-sm text-gray-400">플레이 횟수</p>
+							{(await getRecordsByUserByMode(user.id, "串")).length}	
+						</div>
 					</div>
 					<div className="bordered border-green-600 border-2 w-1/3 bg-green-950">
 						<p className="text-center w-full bg-green-600 py-2 font-bold fontJapanese">本</p>
@@ -191,6 +215,10 @@ export default async function UserInfo({ params }: Props) {
 							</div>
 							{user?.UserJjams[0]?.B ? Math.round(user.UserJjams[0].B) : "(없음)"}
 						</div>
+						<div className="flex flex-row items-center gap-2 m-3">
+							<p className="text-left text-sm text-gray-400">플레이 횟수</p>
+							{(await getRecordsByUserByMode(user.id, "本")).length}	
+						</div>
 					</div>
 					<div className="bordered border-purple-600 border-2 w-1/3 bg-purple-950">
 						<p className="text-center w-full bg-purple-600 py-2 font-bold fontJapanese">雙</p>
@@ -201,6 +229,10 @@ export default async function UserInfo({ params }: Props) {
 								<label className="-mt-2 text-xs text-gray-400">{JjamTier[`Tier${(user?.UserJjams[0]?.ST ?? 0)}` as keyof typeof JjamTier]}</label>
 							</div>
 							{user?.UserJjams[0]?.S ? Math.round(user.UserJjams[0].S) : "(없음)"}
+						</div>
+						<div className="flex flex-row items-center gap-2 m-3">
+							<p className="text-left text-sm text-gray-400">플레이 횟수</p>
+							{(await getRecordsByUserByMode(user.id, "雙")).length}	
 						</div>
 					</div>
 				</div>
@@ -215,6 +247,9 @@ export default async function UserInfo({ params }: Props) {
 						<p className="text-2xl font-bold">플레이 이력을 찾을 수 없어요.</p>
 					</div>
 				)}
+				<div className="mt-5 w-full">
+					{recordList}
+				</div>
 			</div>
 		</div>
 	</>)

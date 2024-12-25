@@ -37,3 +37,12 @@ export const getRecordsByUser = async function (id: string) {
 	});
 	return records;
 }
+
+export const getRecordsByUserByMode = async function (id: string, mode: string) {
+	const prisma = new PrismaClient()
+	const records = await prisma.playRecords.findMany({
+		where: { userId: id, mode: mode },
+		include: { Song: true, Chart: { include: { ChartLevel: true } } }
+	});
+	return records;
+}

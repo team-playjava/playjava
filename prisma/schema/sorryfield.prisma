@@ -119,7 +119,7 @@ model UserJjams {
 }
 
 model PlayRecords {
-  id                     Int
+  id                     Int @id
 
   songId                 Int
   chartId                Int
@@ -131,11 +131,18 @@ model PlayRecords {
   score                  Int
   grade                  String
 
+  judge_perfect          Int
+  judge_great            Int
+  judge_good             Int
+  judge_bad              Int
+  judge_miss             Int
+
   advantage_rateNarrow   Float?
   advantage_noteSpeed    Float?
   advantage_transparency Boolean?
 
   playDate               DateTime
+  revision               Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -144,5 +151,4 @@ model PlayRecords {
   Chart Chart @relation(fields: [chartId, mode], references: [id, mode])
   SorryfieldUser SorryfieldUser @relation(fields: [userId], references: [id])
 
-  @@id([id, mode])
 }
