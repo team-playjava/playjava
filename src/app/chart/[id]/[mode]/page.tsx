@@ -8,7 +8,7 @@ import type { Metadata } from 'next';
 type Props = {
 	params: {
 		id: string;
-		mode: "串" | "本" | "雙";
+		mode: "串" | "本" | "雙" | "g" | "b" | "s";
 	};
 };
 
@@ -18,9 +18,19 @@ type ChartSong = Chart & {
 	ChartTags: ChartTags[];
 };
 
+const modes = {
+	"串": "串",
+	"本": "本",
+	"雙": "雙",
+	"g": "串",
+	"b": "本",
+	"s": "雙"
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const chart : ChartSong = await fetchChart(params.id, params.mode);
-	if(!chart.Song) return { title: 'playJava!' };
+	const modeKey = decodeURI(params.mode) as keyof typeof modes;
+	const chart : ChartSong = await fetchChart(params.id, modes[modeKey]);
+	if(!chart.Song) return { title: '404 - playJava!' };
 	const chartTitle = chart.Song.title; const chartName = chart.chartTitle
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
 
@@ -30,7 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-	const chart : ChartSong = await fetchChart(params.id, params.mode);
+	const modeKey = decodeURI(params.mode) as keyof typeof modes;
+	const chart : ChartSong = await fetchChart(params.id, modes[modeKey]);
 	if(!chart.Song) return <></>;
 	const chartTitle = chart.Song.title; const chartSubTitle = chart.Song.subTitle; const chartName = chart.chartTitle
 	const nowMode: string = decodeURIComponent(Array.isArray(chart.mode) ? chart.mode[0] : chart.mode);
@@ -68,7 +79,7 @@ export default async function Page({ params }: Props) {
 			</div>
 			<div className={styles.pageBody}>
 				<div className={styles.chartInfo}>
-					<a className={styles.chartInfoTag} href={`https://sorry.daldal.so/java?mode=${params.mode}&id=${params.id}`} target="_blank"><div className={javaStyles[`mode-${chart.mode}`]}>{nowMode}</div>{chartName}<i className="pi pi-external-link"/></a>
+					<a className={styles.chartInfoTag} href={`https://sorry.daldal.so/java?mode=${modes[modeKey]}&id=${params.id}`} target="_blank"><div className={javaStyles[`mode-${chart.mode}`]}>{nowMode}</div>{chartName}<i className="pi pi-external-link"/></a>
 					<div className={[styles.chartDifficulty].join(' ')}>
 						<div className={[javaStyles.level, javaStyles[`level-${Math.round(chart.referenceLevel) <= 31 ? Math.round(chart.referenceLevel) : 31}`]].join(' ')}><div className={styles.stars}>{chartRefStars}</div>{Math.round(chart.referenceLevel)}</div>
 						<i className={[styles.fontAwesomeIcon, "pi pi-arrow-right"].join(' ')} />
